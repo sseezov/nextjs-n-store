@@ -5,7 +5,7 @@
 }
 
 .nav {
-  @apply bg-white shadow-lg fixed top-0 left-0 right-0 z-10
+  @apply bg-white top-0 left-0 right-0 z-10
 }
 
 .nav-header-container {
@@ -17,7 +17,7 @@
 }
 
 .nav-links {
-  @apply flex space-x-4 p-4
+  @apply flex space-x-4 p-4 justify-center
 }
 
 .nav-link {

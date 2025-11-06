@@ -12,7 +12,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <body className="main-container">
+    <>
       <header className="header">
         <nav className="nav">
           <div className="nav-header-container">
@@ -21,14 +21,11 @@ export default function RootLayout({
           <div className="nav-links">
             <Link className="nav-link" href="/catalog">Catalog</Link>
             <Link className="nav-link" href="/about">About</Link>
+            <Link className="nav-link" href="/admin">Admin</Link>
           </div>
-        </nav>
-        <nav>
-
-
         </nav>
       </header>
       {children}
-    </body>
+    </>    
   );
 }
