@@ -14,9 +14,11 @@ export async function createCategory(formData: FormData) {
       VALUES (${name}, ${description})
     `;
     revalidatePath('/admin');
-  } catch (e) {
-    console.log(e);
-    return e;
+  } catch (error) {
+    console.error('SQL Error:', error)
+
+    // Бросаем ошибку с понятным сообщением
+    throw new Error('Такая категория уже существует')
   }
 }
 
