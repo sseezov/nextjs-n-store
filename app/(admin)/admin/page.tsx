@@ -8,7 +8,6 @@ export default async function Home() {
   const products = await fetchProducts();
 
   return <>
-    <h1 className="text-2xl font-bold text-purple-800 bg-purple-100 p-2 rounded-md">Админ панель</h1>
     <div className="text-xl font-bold text-blue-300 underline">Категории товаров:</div>
     <div className="flex justify-center">
       <div className="relative overflow-x-auto">
@@ -39,16 +38,10 @@ export default async function Home() {
       </div>
     </div>
     <div className="text-xl font-bold text-blue-300 underline">Товары</div>
-    {products?.map(({ product_id, category_id, product_name, description, base_price, sale_price, created_at, photos }) => (
+    {products?.map(({ product_id, category_id, product_name, description, base_price, sale_price, created_at, images }) => (
       <div className="flex justify-center" key={product_id} >
         <form action={updateCategory}>
-          {/* {photos.map((photo) => {
-            return <Image src='./public/uploads/${photo}'
-            width = { 500}
-            height = { 500}
-              />
-          })} */}
-
+          {images.map((photo) => <Image width='100' height='300' src={`/uploads/${photo}`}/>)}
           <input name="product_id" type="hidden" defaultValue={product_id} />
           <label htmlFor="category_name">Имя продукта</label>
           <input name="category_id" type="hidden" defaultValue={category_id} />
@@ -71,6 +64,5 @@ export default async function Home() {
     ))}
     <div className="text-lg font-bold text-blue-300 underline">Добавить товар</div>
     <CreateProductForm />
-
   </>
 }

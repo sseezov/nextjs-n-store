@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from 'next/link'
+import styles from './layout.module.css'
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -13,19 +14,19 @@ export default function RootLayout({
 }>) {
   return (
     <>
-      <header className="header">
-        <nav className="nav">
-          <div className="nav-header-container">
-            <Link className="nav-header" href="/"><h1>Швейно-вышивальная мастерская</h1></Link>
+      <header className={styles.header}>
+        <nav>
+          <div>
+            <Link className={styles.navLink} href="/"><h1>Швейно-вышивальная мастерская</h1></Link>
           </div>
-          <div className="nav-links">
-            <Link className="nav-link" href="/catalog">Catalog</Link>
-            <Link className="nav-link" href="/about">About</Link>
-            <Link className="nav-link" href="/admin">Admin</Link>
+          <div className={styles.navLinks}>
+            <Link className={styles.navLink} href="/catalog">Catalog</Link>
+            <Link className={styles.navLink} href="/about">About</Link>
+            <Link className={styles.navLink} href="/admin">Admin</Link>
           </div>
         </nav>
       </header>
       {children}
-    </>    
+    </>
   );
 }

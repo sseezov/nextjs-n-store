@@ -1,0 +1,15 @@
+.header {
+  display: flex;
+  justify-content: center;
+  background-color: darkseagreen;
+}
+
+.navLinks {
+  display: flex;
+  justify-content: space-around;
+}
+
+.navLink {
+  text-decoration: none;
+}
+

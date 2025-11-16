@@ -51,18 +51,6 @@ export async function deleteCategory(formData: FormData) {
   revalidatePath('/admin');
 }
 
-export async function uploadFile(formData: FormData) {
-  const files = formData.getAll('file') as [File];
-  files.forEach(async (file) => {
-    const arrayBuffer = await file.arrayBuffer();
-    const buffer = new Uint8Array(arrayBuffer);
-    const uniquePrefix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-    await fs.writeFile(`./public/uploads/${uniquePrefix}-${file.name}`, buffer);
-  })
-
-  revalidatePath("/");
-}
-
 export async function createProduct(formData: FormData) {
   const { product_name, category_id, description, base_price, sale_price, photos } = {
     product_name: formData.get('product_name_create') as 'string',
