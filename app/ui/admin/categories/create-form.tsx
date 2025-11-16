@@ -8,7 +8,7 @@ export default function CreateCategory() {
       <input name='name' required className="border m-2 border-gray-800" type="text" />
       <label htmlFor="description">Описание</label>
       <input name='description' className="border m-2 border-gray-800" type="text" />
-      <button className="border border-gray-800 m-2" type="submit">Добавить категорию</button>
+      <button className="btn btn-primary" type="submit">Добавить категорию</button>
     </form>
   </>
 }

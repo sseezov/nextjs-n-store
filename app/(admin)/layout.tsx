@@ -1,4 +1,5 @@
 import styles from './layout.module.css'
+import Link from 'next/link'
 
 export default function AdminLayout({
   children,
@@ -7,14 +8,15 @@ export default function AdminLayout({
 }>) {
   return (
     <>
-      <header className={styles.header}>
-        <a href="#logo">Админ панель</a>
+      <nav>
         <div>
-
-          <a href="#contact">Контакты</a>
-          <a href="#about">О нас</a>
+          <Link className={styles.navLink} href="/"><h1>Админка</h1></Link>
         </div>
-      </header>
+        <div className='nav-menu'>
+          <Link className={styles.navLink} href="/catalog">Товары</Link>
+          <Link className={styles.navLink} href="/about">Категории</Link>
+        </div>
+      </nav>
       {children}
     </>
   );

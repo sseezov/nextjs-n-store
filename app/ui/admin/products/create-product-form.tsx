@@ -24,7 +24,7 @@ export default async function CreateProductForm() {
       <input name='base_price_create' required className="border m-2 border-gray-800" type="text" />
       <label htmlFor="sale_price_create">Цена со скидкой</label>
       <input name='sale_price_create' className="border m-2 border-gray-800" type="text" />
-      <button className="border border-gray-800 m-2" type="submit">Добавить товар</button>
+      <button className="btn btn-primary" type="submit">Добавить товар</button>
     </form>
   )
 }

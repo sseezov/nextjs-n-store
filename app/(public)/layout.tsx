@@ -14,12 +14,12 @@ export default function RootLayout({
 }>) {
   return (
     <>
-      <header className={styles.header}>
+      <header className="header">
         <nav>
           <div>
             <Link className={styles.navLink} href="/"><h1>Швейно-вышивальная мастерская</h1></Link>
           </div>
-          <div className={styles.navLinks}>
+          <div className='nav-menu'>
             <Link className={styles.navLink} href="/catalog">Catalog</Link>
             <Link className={styles.navLink} href="/about">About</Link>
             <Link className={styles.navLink} href="/admin">Admin</Link>
