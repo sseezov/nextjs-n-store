@@ -1,9 +1,17 @@
 import { createProduct } from "../../lib/actions"
 import { fetchCategories } from "../../lib/data";
+import { useEffect, useState } from "react";
 
-
-export default async function CreateProductForm() {
-  const categories = await fetchCategories();
+export default function CreateProductForm() {
+  const [categories, setCategories] = useState([])
+  useEffect(() => {
+    async function loadData() {
+      const categories = await fetchCategories();
+      setCategories(categories)
+      // setProducts(products)
+    }
+    loadData()
+  }, [])
 
   return (
     <form className="flex justify-center" action={createProduct}>

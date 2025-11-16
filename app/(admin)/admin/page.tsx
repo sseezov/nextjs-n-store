@@ -1,11 +1,25 @@
+'use client'
+
 import { fetchCategories, fetchProducts } from "../../lib/data"
 import { createCategory, deleteCategory, updateCategory } from "../../lib/actions";
 import CreateProductForm from "../../ui/admin/create-product-form";
 import Image from 'next/image'
+import { useEffect, useState } from "react";
 
-export default async function Home() {
-  const categories = await fetchCategories();
-  const products = await fetchProducts();
+export default function Home() {
+  const [categories, setCategories] = useState([])
+  const [products, setProducts] = useState([])
+
+  useEffect(() => {
+    async function loadData() {
+      const categories = await fetchCategories();
+      const products = await fetchProducts();
+      setCategories(categories)
+      setProducts(products)
+    }
+    loadData()
+  }, [])
+
 
   return <>
     <div className="text-xl font-bold text-blue-300 underline">Категории товаров:</div>
@@ -41,7 +55,7 @@ export default async function Home() {
     {products?.map(({ product_id, category_id, product_name, description, base_price, sale_price, created_at, images }) => (
       <div className="flex justify-center" key={product_id} >
         <form action={updateCategory}>
-          {images.map((photo) => <Image width='100' height='300' src={`/uploads/${photo}`}/>)}
+          {images.map((photo) => <Image width='100' height='300' src={`/uploads/${photo}`} />)}
           <input name="product_id" type="hidden" defaultValue={product_id} />
           <label htmlFor="category_name">Имя продукта</label>
           <input name="category_id" type="hidden" defaultValue={category_id} />
