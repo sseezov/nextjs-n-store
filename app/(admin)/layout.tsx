@@ -9,12 +9,10 @@ export default function AdminLayout({
   return (
     <>
       <nav>
-        <div>
-          <Link className={styles.navLink} href="/"><h1>Админка</h1></Link>
-        </div>
+        <h1 className='header'>Админка</h1>
         <div className='nav-menu'>
-          <Link className={styles.navLink} href="/catalog">Товары</Link>
-          <Link className={styles.navLink} href="/about">Категории</Link>
+          <Link className={styles.navLink} href="products">Товары</Link>
+          <Link className={styles.navLink} href="categories">Категории</Link>
         </div>
       </nav>
       {children}

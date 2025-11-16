@@ -1,12 +1,13 @@
 import { deleteCategory, updateCategory } from "../../../lib/actions";
+import styles from './categories-table.module.css'
 
 export default function CategoriesTable({ categories }) {
+  
   return <>
-    <div>Категории товаров:</div>
     {
       categories?.map(({ category_id, category_name, description }: { category_id: string, category_name: string, description: string }) => (
-        <div key={category_id} >
-          <form className="form-group" action={updateCategory}>
+        <div className={`form-group ${styles.formsContainer}`} key={category_id} >
+          <form action={updateCategory}>
             <input name="category_id" type="hidden" defaultValue={category_id} />
             <label htmlFor="category_name">Имя категории</label>
             <input name="category_name" type="text" defaultValue={category_name} />
