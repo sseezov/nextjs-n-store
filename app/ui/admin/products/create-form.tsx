@@ -1,5 +1,5 @@
-import { createProduct } from "../../lib/actions"
-import { fetchCategories } from "../../lib/data";
+import { createProduct } from "../../../lib/actions"
+import { fetchCategories } from "../../../lib/data";
 import { useEffect, useState } from "react";
 
 export default function CreateProductForm() {
@@ -8,7 +8,6 @@ export default function CreateProductForm() {
     async function loadData() {
       const categories = await fetchCategories();
       setCategories(categories)
-      // setProducts(products)
     }
     loadData()
   }, [])
