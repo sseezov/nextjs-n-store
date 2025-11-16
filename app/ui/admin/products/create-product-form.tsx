@@ -1,6 +1,5 @@
-import { createProduct } from "../../lib/actions"
-import { fetchCategories } from "../../lib/data";
-
+import { createProduct } from "../../../lib/actions"
+import { fetchCategories } from "../../../lib/data";
 
 export default async function CreateProductForm() {
   const categories = await fetchCategories();
