@@ -5,7 +5,7 @@ export default async function CreateProductForm() {
   const categories = await fetchCategories();
 
   return (
-    <form className="flex justify-center" action={createProduct}>
+    <form action={createProduct}>
       <label>
         <span>Загрузите фотографии</span>
         <input type="file" multiple name="file" />

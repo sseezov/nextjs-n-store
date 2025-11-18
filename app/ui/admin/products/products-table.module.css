@@ -1,0 +1,12 @@
+.formValues {
+  display: flex;
+}
+
+.formCell {
+  margin: 10px;
+}
+
+.deleteBtn {
+  float: right;
+  margin-top: -45px;
+}

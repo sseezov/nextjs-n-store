@@ -1,14 +1,22 @@
 import { createCategory } from "../../../lib/actions"
+import styles from './categories-table.module.css'
 
 export default function CreateCategory() {
   return <>
-    <div className="text-lg font-bold text-blue-300 underline">Добавить категорию</div>
-    <form className="flex justify-center" action={createCategory}>
-      <label htmlFor="name" >Имя категории</label>
-      <input name='name' required className="border m-2 border-gray-800" type="text" />
-      <label htmlFor="description">Описание</label>
-      <input name='description' className="border m-2 border-gray-800" type="text" />
-      <button className="btn btn-primary" type="submit">Добавить категорию</button>
-    </form>
+    <h3>Добавить категорию</h3>
+    <div className={`form-group ${styles.formsContainer}`}>
+      <form action={createCategory}>
+        <div className="input-group">
+          <label htmlFor="name" >Имя категории</label>
+          <input name='name' required type="text" />
+        </div>
+        <div className="input-group">
+          <label htmlFor="description">Описание</label>
+          <input name='description' type="text" />
+        </div>
+
+        <button className={`btn btn-primary ${styles.btn}`} type="submit">Добавить категорию</button>
+      </form>
+    </div>
   </>
 }

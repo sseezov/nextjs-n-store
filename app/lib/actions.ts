@@ -96,3 +96,40 @@ export async function createProduct(formData: FormData) {
     throw new Error('Такой продукт уже существует')
   }
 }
+
+export async function deleteProduct(formData: FormData) {
+  const { id } = { id: formData.get('product_id') as 'string' };
+  try {
+    await sql`DELETE FROM products WHERE product_id = ${id}`;
+  } catch (e) {
+    console.error(e);
+    return {
+      message: 'Database Error: Failed to Update Invoice.',
+    };
+  }
+  revalidatePath('/products');
+}
+
+export async function updateProduct(formData: FormData) {
+  const { product_id, category_id, name, description } = {
+    product_id: formData.get('product_id') as 'string',
+    category_id: formData.get('category_id') as 'string',
+    name: formData.get('category_name') as 'string',
+    description: formData.get('description') as 'string',
+  };
+
+  try {
+    await sql`
+    UPDATE products
+    SET category_name = ${name}, description = ${description}
+    WHERE category_id = ${id}
+  `;
+  } catch (e) {
+    console.error(e);
+    return {
+      message: 'Database Error: Failed to Update Invoice.',
+    };
+  }
+
+  revalidatePath('/admin');
+}
