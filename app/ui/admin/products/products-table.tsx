@@ -6,36 +6,76 @@ export default function ProductsTable({ products }) {
   return <>
     <h3>Товары</h3>
     {products?.map(({ product_id, category_id, product_name, description, base_price, sale_price, created_at, images }) => (
-      <div key={product_id} >
-        <form className={styles.formGroup} action={updateCategory}>
-          <div className={styles.formValues}>
-            <div className={styles.formCell}>
-              {images.map((photo) => <Image key={photo.split('_')[0]} width='100' height='300' src={`/uploads/${photo}`} alt='p' />)}
+      <div key={product_id} className={styles.container}>
+        <div className={styles.formsWrapper}>
+          {/* Форма редактирования */}
+          <form className={styles.editForm} action={updateCategory}>
+            <input name="product_id" type="hidden" defaultValue={product_id} className={styles.hidden} />
+
+            {/* Первая колонка - Основная информация */}
+            <div className={styles.column}>
+              <div>
+                <label htmlFor="product_name" className={styles.label}>Имя продукта</label>
+                <input name="product_name" type="text" defaultValue={product_name} className={styles.input} />
+              </div>
+
+              <div>
+                <label htmlFor="category_id" className={styles.label}>ID категории</label>
+                <input name="category_id" type="text" defaultValue={category_id} className={styles.input} />
+              </div>
+
+              <div>
+                <label htmlFor="description" className={styles.label}>Описание</label>
+                <input name="description" type="text" defaultValue={description} className={styles.input} />
+              </div>
             </div>
-            <div className={styles.formCell}>
-              <input name="product_id" type="hidden" defaultValue={product_id} />
-              <label htmlFor="product_name">Имя продукта</label>
-              <input name="product_name" type="text" defaultValue={product_name} />
-              <label htmlFor="category_id">Имя категории</label>
-              <input name="category_id" className="border m-2" type="text" defaultValue={category_id} />
-              <label htmlFor="description">Описание</label>
-              <input name="description" className="border m-2" type="text" defaultValue={description} />
+
+            {/* Вторая колонка - Изображения */}
+            <div className={styles.column}>
+              <label className={styles.label}>Изображения</label>
+              <div className={styles.images}>
+                {images.map((photo) => (
+                  <div key={photo.split('_')[0]} className={styles.imageContainer}>
+                    <Image
+                      width='80'
+                      height='100'
+                      src={`/uploads/${photo}`}
+                      alt='product'
+                    />
+                  </div>
+                ))}
+              </div>
             </div>
-            <div className={styles.formCell}>
-              <label htmlFor="base_price">Базовая цена</label>
-              <input name="base_price" className="border m-2" type="text" defaultValue={base_price} />
-              <label htmlFor="sale_price">Цена со скидкой</label>
-              <input name="sale_price" className="border m-2" type="text" defaultValue={sale_price} />
-              <label htmlFor="created_at">Время создания</label>
-              <input name="created_at" className="border m-2" type="text" defaultValue={created_at} />
+
+            {/* Третья колонка - Цены */}
+            <div className={styles.column}>
+              <div>
+                <label htmlFor="base_price" className={styles.label}>Базовая цена</label>
+                <input name="base_price" type="text" defaultValue={base_price} className={styles.input} />
+              </div>
+
+              <div>
+                <label htmlFor="sale_price" className={styles.label}>Цена со скидкой</label>
+                <input name="sale_price" type="text" defaultValue={sale_price} className={styles.input} />
+              </div>
+
+              <button className={`${styles.btn} ${styles.editBtn}`} type="submit">
+                Редактировать
+              </button>
             </div>
-          </div>
-          <button className="btn btn-primary" type="submit">Редактировать</button>
-        </form>
-        <form action={deleteProduct}>
-          <input name="product_id" type="hidden" defaultValue={product_id} />
-          <button className={`btn btn-primary ${styles.deleteBtn}`} type="submit">Удалить</button>
-        </form>
+          </form>
+
+          {/* Форма удаления */}
+          <form className={styles.deleteForm} action={deleteProduct}>
+            <input name="product_id" type="hidden" defaultValue={product_id} className={styles.hidden} />
+            <button className={`${styles.btn} ${styles.deleteBtn}`} type="submit">
+              Удалить
+            </button>
+          </form>
+        </div>
+
+        {/* Время создания */}
+        <p className={styles.createdAt}>{`Время создания: ${created_at}`}</p>
       </div>
     ))}
   </>

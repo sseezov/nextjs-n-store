@@ -1,12 +1,119 @@
-.formValues {
-  display: flex;
+.container {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 16px;
+  background: white;
 }
 
-.formCell {
-  margin: 10px;
+.formsWrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr auto;
+  gap: 20px;
+  align-items: start;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.images {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.imageContainer {
+  border: 1px solid #eee;
+  border-radius: 4px;
+  padding: 4px;
+}
+
+.label {
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 4px;
+  font-size: 14px;
+}
+
+.input {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 100%;
+  font-size: 14px;
+}
+
+.input:focus {
+  outline: none;
+  border-color: #c8a97e;
+}
+
+.hidden {
+  display: none;
+}
+
+.createdAt {
+  color: #666;
+  font-size: 12px;
+  margin: 0;
+  grid-column: 1 / -1;
+}
+
+.editForm {
+  grid-column: 1 / 4;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 20px;
+}
+
+.deleteForm {
+  display: flex;
+  align-items: flex-end;
+}
+
+.btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+.editBtn {
+  background: #c8a97e;
+  color: white;
+}
+
+.editBtn:hover {
+  background: #a67c52;
 }
 
 .deleteBtn {
-  float: right;
-  margin-top: -45px;
+  background: #e74c3c;
+  color: white;
+}
+
+.deleteBtn:hover {
+  background: #c0392b;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+  .formsWrapper {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  
+  .editForm {
+    grid-column: 1;
+    grid-template-columns: 1fr;
+  }
+  
+  .deleteForm {
+    justify-content: center;
+  }
 }
