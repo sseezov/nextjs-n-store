@@ -7,21 +7,23 @@
 }
 
 .formsWrapper {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr auto;
-  gap: 20px;
   align-items: start;
 }
 
-.column {
+.row {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+}
+
+.imageRow {
   display: flex;
   flex-direction: column;
-  gap: 12px;
 }
 
 .images {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   gap: 8px;
 }
 
@@ -58,20 +60,15 @@
 .createdAt {
   color: #666;
   font-size: 12px;
-  margin: 0;
-  grid-column: 1 / -1;
+  margin: 8px 0 0 0;
 }
 
-.editForm {
-  grid-column: 1 / 4;
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 20px;
-}
-
-.deleteForm {
+.buttons {
   display: flex;
-  align-items: flex-end;
+  flex-direction: column;
+  gap: 8px;
+  justify-content: flex-end;
+  height: 100%;
 }
 
 .btn {
@@ -86,6 +83,9 @@
 .editBtn {
   background: #c8a97e;
   color: white;
+  float: left;
+  margin: 5px;
+  margin-left: 33%;
 }
 
 .editBtn:hover {
@@ -95,6 +95,8 @@
 .deleteBtn {
   background: #e74c3c;
   color: white;
+  float: left;
+  margin: 5px;
 }
 
 .deleteBtn:hover {
@@ -108,12 +110,8 @@
     gap: 16px;
   }
   
-  .editForm {
-    grid-column: 1;
-    grid-template-columns: 1fr;
-  }
-  
-  .deleteForm {
+  .buttons {
+    flex-direction: row;
     justify-content: center;
   }
 }

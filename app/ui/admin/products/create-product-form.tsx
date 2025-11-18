@@ -6,9 +6,9 @@ export default async function CreateProductForm() {
 
   return (
     <form action={createProduct}>
-      <label>
+      <label htmlFor="photos">
         <span>Загрузите фотографии</span>
-        <input type="file" multiple name="file" />
+        <input type="file" multiple name="photos" />
       </label>
       <label htmlFor="product_name_create" >Имя</label>
       <input name='product_name_create' required className="border m-2 border-gray-800" type="text" />

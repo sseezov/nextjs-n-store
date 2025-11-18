@@ -58,7 +58,7 @@ export async function createProduct(formData: FormData) {
     description: formData.get('product_description_create') as 'string',
     base_price: formData.get('base_price_create') as 'string',
     sale_price: formData.get('sale_price_create') as 'string',
-    photos: formData.getAll('file') as [File],
+    photos: formData.getAll('photos') as [File],
   };
   const filenames = await Promise.all(photos.map(async (file) => {
     const arrayBuffer = await file.arrayBuffer();
@@ -75,7 +75,6 @@ export async function createProduct(formData: FormData) {
     RETURNING product_id `;
     const { product_id } = productResult[0];
     filenames.forEach(async (filename) => {
-
       const imageResult = await sql`
       INSERT INTO product_images (image_url, is_main)
       VALUES (${filename}, ${false})
