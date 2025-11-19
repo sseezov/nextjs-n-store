@@ -3,6 +3,7 @@ import { deleteProduct, updateCategory } from "../../../lib/actions";
 import styles from './products-table.module.css'
 
 export default function ProductsTable({ products }) {
+    console.log(products);
   return <>
     <h3>Товары</h3>
     {products?.map(({ product_id, category_id, product_name, description, base_price, sale_price, created_at, images }) => (
@@ -15,7 +16,7 @@ export default function ProductsTable({ products }) {
               <label className={styles.label}>Изображения</label>
               <div className={styles.images}>
                 {images.map((photo) => (
-                  <div key={photo.split('_')[0]} className={styles.imageContainer}>
+                  <div key={photo} className={styles.imageContainer}>
                     <Image
                       width='80'
                       height='100'

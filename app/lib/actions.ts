@@ -41,7 +41,6 @@ export async function updateCategory(formData: FormData) {
       message: 'Database Error: Failed to Update Invoice.',
     };
   }
-
   revalidatePath('/admin');
 }
 
@@ -94,12 +93,19 @@ export async function createProduct(formData: FormData) {
 
     throw new Error('Такой продукт уже существует')
   }
+  revalidatePath('/admin');
 }
 
 export async function deleteProduct(formData: FormData) {
   const { id } = { id: formData.get('product_id') as 'string' };
   try {
-    await sql`DELETE FROM products WHERE product_id = ${id}`;
+    const photos = await sql`SELECT * FROM product_image_relations WHERE product_id = ${id};`;
+    photos.forEach(async ({ image_id }) => {
+      const [result] = await sql`DELETE FROM product_images WHERE id = ${image_id} RETURNING image_url;`;
+      const { image_url } = result;
+      await fs.unlink(`./public/uploads/${image_url}`);
+    })
+    await sql`DELETE FROM products WHERE product_id = ${id};`
   } catch (e) {
     console.error(e);
     return {
