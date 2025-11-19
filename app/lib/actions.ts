@@ -1,6 +1,6 @@
 'use server';
 import fs from "node:fs/promises";
-import { revalidatePath } from 'next/cache';
+import { revalidatePath, revalidateTag } from 'next/cache';
 import postgres from 'postgres';
 const sql = postgres(process.env.POSTGRES_ADRESS!);
 
@@ -59,6 +59,7 @@ export async function createProduct(formData: FormData) {
     sale_price: formData.get('sale_price_create') as 'string',
     photos: formData.getAll('photos') as [File],
   };
+
   const filenames = await Promise.all(photos.map(async (file) => {
     const arrayBuffer = await file.arrayBuffer();
     const buffer = new Uint8Array(arrayBuffer);
@@ -73,7 +74,7 @@ export async function createProduct(formData: FormData) {
       VALUES (${category_id}, ${product_name}, ${base_price}, ${sale_price}, ${description})
     RETURNING product_id `;
     const { product_id } = productResult[0];
-    filenames.forEach(async (filename) => {
+    const imagePromises = filenames.map(async (filename) => {
       const imageResult = await sql`
       INSERT INTO product_images (image_url, is_main)
       VALUES (${filename}, ${false})
@@ -83,17 +84,15 @@ export async function createProduct(formData: FormData) {
 
       await sql`
       INSERT INTO product_image_relations (product_id, image_id)
-      VALUES (${product_id}, ${image_id})
-    `;
-    })
+      VALUES (${product_id}, ${image_id}) `;
+    });
 
-    revalidatePath('/admin');
+    await Promise.all(imagePromises);
+    revalidatePath('/admin/products');
   } catch (error) {
     console.error('SQL Error:', error)
-
     throw new Error('Такой продукт уже существует')
   }
-  revalidatePath('/admin');
 }
 
 export async function deleteProduct(formData: FormData) {
@@ -112,29 +111,31 @@ export async function deleteProduct(formData: FormData) {
       message: 'Database Error: Failed to Update Invoice.',
     };
   }
-  revalidatePath('/products');
+  revalidatePath('/admin/products');
 }
 
 export async function updateProduct(formData: FormData) {
-  const { product_id, category_id, name, description } = {
+  const { product_id, category_id, product_name, description, base_price, sale_price } = {
     product_id: formData.get('product_id') as 'string',
     category_id: formData.get('category_id') as 'string',
-    name: formData.get('category_name') as 'string',
+    product_name: formData.get('product_name') as 'string',
     description: formData.get('description') as 'string',
+    base_price: formData.get('base_price') as 'string',
+    sale_price: formData.get('sale_price') as 'string',
   };
+  console.log(product_id, category_id, product_name, description, base_price, sale_price);
 
   try {
-    await sql`
-    UPDATE products
-    SET category_name = ${name}, description = ${description}
-    WHERE category_id = ${id}
-  `;
+    await sql`UPDATE products
+    SET product_name = ${product_name}, description = ${description}, category_id = ${category_id},
+    base_price = ${base_price}, sale_price = ${sale_price}
+    WHERE product_id = ${product_id}`;
   } catch (e) {
     console.error(e);
     return {
-      message: 'Database Error: Failed to Update Invoice.',
+      message: 'Database Error: Failed to Update product.',
     };
   }
 
-  revalidatePath('/admin');
+  revalidatePath('/admin/products');
 }

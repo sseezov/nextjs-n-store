@@ -15,18 +15,6 @@ export async function fetchCategories() {
   }
 }
 
-export async function fetchPhotos() {
-  try {
-    const data = await sql`SELECT * FROM products ORDER BY product_id ASC`;
-    return data;
-  } catch (error) {
-    console.error(error);
-    return {
-      message: 'Не удалось загрузить товары',
-    };
-  }
-}
-
 export async function fetchProducts() {
   try {
     const data = await sql`SELECT 

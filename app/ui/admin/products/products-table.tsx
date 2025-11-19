@@ -1,15 +1,14 @@
 import Image from 'next/image'
-import { deleteProduct, updateCategory } from "../../../lib/actions";
+import { deleteProduct, updateProduct } from "../../../lib/actions";
 import styles from './products-table.module.css'
 
 export default function ProductsTable({ products }) {
-    console.log(products);
   return <>
     <h3>Товары</h3>
     {products?.map(({ product_id, category_id, product_name, description, base_price, sale_price, created_at, images }) => (
       <div key={product_id} className={styles.container}>
         <div className={styles.formsWrapper}>
-          <form className={styles.editForm} action={updateCategory}>
+          <form className={styles.editForm} action={updateProduct}>
             <input name="product_id" type="hidden" defaultValue={product_id} className={styles.hidden} />
 
             <div className={styles.imageRow}>
