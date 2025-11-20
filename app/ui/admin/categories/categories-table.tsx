@@ -1,11 +1,12 @@
 import { deleteCategory, updateCategory } from "../../../lib/actions";
+import { Category } from "../../../lib/definitios";
 import styles from './categories-table.module.css'
 
-export default function CategoriesTable({ categories }) {
+export default function CategoriesTable({ categories } : {categories: Category[]}) {
 
   return <>
     {
-      categories?.map(({ category_id, category_name, description }: { category_id: string, category_name: string, description: string }) => (
+      categories?.map(({ category_id, category_name, description }: Category) => (
         <div className={`form-group ${styles.formsContainer}`} key={category_id} >
           <form action={updateCategory}>
             <input name="category_id" type="hidden" defaultValue={category_id} />

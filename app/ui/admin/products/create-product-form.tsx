@@ -6,7 +6,7 @@ export default async function CreateProductForm() {
 
   return (
     <>
-    <h3>Создать товар</h3>
+      <h3>Создать товар</h3>
       <form action={createProduct}>
         <label htmlFor="photos">
           <span>Загрузите фотографии</span>
@@ -16,9 +16,9 @@ export default async function CreateProductForm() {
         <input name='product_name_create' required className="border m-2 border-gray-800" type="text" />
         <label htmlFor="product_category_id" >Категория</label>
         <select name="product_category_id">
-          {categories.map(({ category_id, category_name }) => {
-            return <option key={category_id} value={category_id}>{category_name}</option>
-          })}
+          {categories.map(({ category_id, category_name }) => (
+            <option key={category_id} value={category_id}>{category_name}</option>
+          ))}
         </select>
         <label htmlFor="product_description_create">Описание</label>
         <input name='product_description_create' required className="border m-2 border-gray-800" type="text" />

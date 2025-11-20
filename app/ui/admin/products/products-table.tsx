@@ -1,11 +1,12 @@
 import Image from 'next/image'
 import { deleteProduct, updateProduct } from "../../../lib/actions";
 import styles from './products-table.module.css'
+import { Product } from '../../../lib/definitios';
 
-export default function ProductsTable({ products }) {
+export default function ProductsTable({ products } : {products: Product[]}) {
   return <>
     <h3>Товары</h3>
-    {products?.map(({ product_id, category_id, product_name, description, base_price, sale_price, created_at, images }) => (
+    {products?.map(({ product_id, category_id, product_name, description, base_price, sale_price, created_at, images } : Product) => (
       <div key={product_id} className={styles.container}>
         <div className={styles.formsWrapper}>
           <form className={styles.editForm} action={updateProduct}>

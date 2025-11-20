@@ -1,23 +1,22 @@
 'use server';
 
 import postgres from 'postgres';
+import { Category, Product } from './definitios';
 const sql = postgres(process.env.POSTGRES_ADRESS!);
 
 export async function fetchCategories() {
   try {
-    const data = await sql`SELECT * FROM categories ORDER BY category_id ASC`;
+    const data = await sql<Category[]>`SELECT * FROM categories ORDER BY category_id ASC`;
     return data;
   } catch (error) {
     console.error(error);
-    return {
-      message: 'Не удалось загрузить категории',
-    };
+    throw new Error('Не удалось загрузить категории')
   }
 }
 
 export async function fetchProducts() {
   try {
-    const data = await sql`SELECT 
+    const data = await sql<Product[]>`SELECT 
     p.product_id,
     p.category_id,
     p.product_name,
@@ -33,8 +32,6 @@ export async function fetchProducts() {
     return data;
   } catch (error) {
     console.error(error);
-    return {
-      message: 'Не удалось загрузить товары',
-    };
+    throw new Error('Не получилось загрузить продукты')
   }
 }

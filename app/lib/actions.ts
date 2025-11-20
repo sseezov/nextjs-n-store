@@ -1,6 +1,6 @@
 'use server';
 import fs from "node:fs/promises";
-import { revalidatePath, revalidateTag } from 'next/cache';
+import { revalidatePath } from 'next/cache';
 import postgres from 'postgres';
 const sql = postgres(process.env.POSTGRES_ADRESS!);
 
@@ -16,8 +16,6 @@ export async function createCategory(formData: FormData) {
     revalidatePath('/admin');
   } catch (error) {
     console.error('SQL Error:', error)
-
-    // Бросаем ошибку с понятным сообщением
     throw new Error('Такая категория уже существует')
   }
 }
@@ -37,9 +35,7 @@ export async function updateCategory(formData: FormData) {
   `;
   } catch (e) {
     console.error(e);
-    return {
-      message: 'Database Error: Failed to Update Invoice.',
-    };
+    throw new Error('Такая категория уже существует')
   }
   revalidatePath('/admin');
 }
@@ -107,9 +103,7 @@ export async function deleteProduct(formData: FormData) {
     await sql`DELETE FROM products WHERE product_id = ${id};`
   } catch (e) {
     console.error(e);
-    return {
-      message: 'Database Error: Failed to Update Invoice.',
-    };
+    throw new Error('Ошибка при удалении элемента')
   }
   revalidatePath('/admin/products');
 }
@@ -123,7 +117,6 @@ export async function updateProduct(formData: FormData) {
     base_price: formData.get('base_price') as 'string',
     sale_price: formData.get('sale_price') as 'string',
   };
-  console.log(product_id, category_id, product_name, description, base_price, sale_price);
 
   try {
     await sql`UPDATE products
@@ -132,9 +125,7 @@ export async function updateProduct(formData: FormData) {
     WHERE product_id = ${product_id}`;
   } catch (e) {
     console.error(e);
-    return {
-      message: 'Database Error: Failed to Update product.',
-    };
+    throw new Error('Database Error: Failed to Update product.')
   }
 
   revalidatePath('/admin/products');
