@@ -16,6 +16,12 @@
   gap: 12px;
 }
 
+.categoryTabs {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+}
+
 .imageRow {
   display: flex;
   flex-direction: column;

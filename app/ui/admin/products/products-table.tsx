@@ -1,12 +1,13 @@
 import Image from 'next/image'
 import { deleteProduct, updateProduct } from "../../../lib/actions";
 import styles from './products-table.module.css'
-import { Product } from '../../../lib/definitios';
+import { Category, Product } from '../../../lib/definitios';
 
-export default function ProductsTable({ products } : {products: Product[]}) {
+export default function ProductsTable({ products, categories }: { products: Product[], categories: Category[] }) {
+
   return <>
     <h3>Товары</h3>
-    {products?.map(({ product_id, category_id, product_name, description, base_price, sale_price, created_at, images } : Product) => (
+    {products?.map(({ product_id, category_id: product_category_id, product_name, description, base_price, sale_price, created_at, images }: Product) => (
       <div key={product_id} className={styles.container}>
         <div className={styles.formsWrapper}>
           <form className={styles.editForm} action={updateProduct}>
@@ -34,8 +35,12 @@ export default function ProductsTable({ products } : {products: Product[]}) {
               </div>
 
               <div>
-                <label htmlFor="category_id" className={styles.label}>ID категории</label>
-                <input name="category_id" type="text" defaultValue={category_id} className={styles.input} />
+                <label htmlFor="category_id" className={styles.label}>Имя категории</label>
+                <select defaultValue={product_category_id} name="category_id">
+                  {categories.map(({ category_id, category_name }) => (
+                    <option key={category_id} value={category_id}>{category_name}</option>
+                  ))}
+                </select>
               </div>
 
               <div>
@@ -57,13 +62,13 @@ export default function ProductsTable({ products } : {products: Product[]}) {
 
               <div>
                 <label htmlFor="created_at" className={styles.label}>Время создания</label>
-                <input name="created_at" type="text" defaultValue={created_at} className={styles.input} />
+                <input disabled name="created_at" type="text" defaultValue={created_at} className={styles.input} />
               </div>
 
             </div>
-              <button className={`${styles.btn} ${styles.editBtn}`} type="submit">
-                Редактировать
-              </button>
+            <button className={`${styles.btn} ${styles.editBtn}`} type="submit">
+              Редактировать
+            </button>
           </form>
 
           {/* Форма удаления */}
@@ -73,7 +78,7 @@ export default function ProductsTable({ products } : {products: Product[]}) {
               Удалить
             </button>
           </form>
-        </div>        
+        </div>
       </div>
     ))}
   </>
