@@ -1,5 +1,5 @@
 import { createCategory } from "../../../lib/actions"
-import styles from './categories-table.module.css'
+import styles from './categories.module.css'
 
 export default function CreateCategory() {
   return <>

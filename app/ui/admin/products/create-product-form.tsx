@@ -1,5 +1,6 @@
 import { createProduct } from "../../../lib/actions"
 import { fetchCategories } from "../../../lib/data";
+import styles from './products.module.css'
 
 export default async function CreateProductForm() {
   const categories = await fetchCategories();
@@ -8,9 +9,9 @@ export default async function CreateProductForm() {
     <>
       <h3>Создать товар</h3>
       <form action={createProduct}>
-        <label htmlFor="photos">
+        <label htmlFor="photos" className={styles.photosLable}>
           <span>Загрузите фотографии</span>
-          <input type="file" multiple name="photos" />
+          <input className={styles.input} type="file" multiple name="photos" id="photos" />
         </label>
         <label htmlFor="product_name_create">Имя</label>
         <input name='product_name_create' required className="border m-2 border-gray-800" type="text" />
@@ -26,7 +27,7 @@ export default async function CreateProductForm() {
         <input name='base_price_create' required className="border m-2 border-gray-800" type="text" />
         <label htmlFor="sale_price_create">Цена со скидкой</label>
         <input name='sale_price_create' className="border m-2 border-gray-800" type="text" />
-        <button className="btn btn-primary" type="submit">Добавить товар</button>
+        <button className={`btn btn-primary ${styles.createBtn}`} type="submit">Добавить товар</button>
       </form>
     </>
   )

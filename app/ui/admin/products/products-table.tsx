@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import { deleteProduct, updateProduct } from "../../../lib/actions";
-import styles from './products-table.module.css'
+import styles from './products.module.css'
 import { Category, Product } from '../../../lib/definitios';
 
 export default function ProductsTable({ products, categories }: { products: Product[], categories: Category[] }) {
@@ -36,7 +36,7 @@ export default function ProductsTable({ products, categories }: { products: Prod
 
               <div>
                 <label htmlFor="category_id" className={styles.label}>Имя категории</label>
-                <select defaultValue={product_category_id} name="category_id">
+                <select defaultValue={product_category_id} name="category_id" className={styles.select}>
                   {categories.map(({ category_id, category_name }) => (
                     <option key={category_id} value={category_id}>{category_name}</option>
                   ))}

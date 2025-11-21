@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { Category, Product } from "../../../lib/definitios";
 import ProductsTable from "./products-table";
-import styles from './products-table.module.css'
+import styles from './products.module.css'
 
 export default function ProductsList({ products, categories }: { products: Product[], categories: Category[] }) {
   const [filteredProducts, setFilteredProducts] = useState(products);
@@ -15,7 +15,7 @@ export default function ProductsList({ products, categories }: { products: Produ
     <li className={styles.categoryTabs}>
       {categories.map(({ category_id, category_name }) => {
         return <ol key={category_id}>
-          <button onClick={() => selectProductsByCategory(category_id)}>{category_name}</button>
+          <button className={styles.btn} onClick={() => selectProductsByCategory(category_id)}>{category_name}</button>
         </ol>
       })}
     </li>

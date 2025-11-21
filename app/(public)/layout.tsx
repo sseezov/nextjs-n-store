@@ -14,7 +14,7 @@ export default function RootLayout({
 }>) {
   return (
     <>
-      <header className="header">
+      <header className={`header ${styles.header}`}>
         <nav>
           <div>
             <Link className={styles.navLink} href="/"><h1>Швейно-вышивальная мастерская</h1></Link>

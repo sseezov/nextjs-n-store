@@ -1,6 +1,6 @@
 import { deleteCategory, updateCategory } from "../../../lib/actions";
 import { Category } from "../../../lib/definitios";
-import styles from './categories-table.module.css'
+import styles from './categories.module.css'
 
 export default function CategoriesTable({ categories } : {categories: Category[]}) {
 
