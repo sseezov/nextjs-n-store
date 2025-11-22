@@ -1,5 +1,5 @@
 'use client'
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Category, Product } from "../../../lib/definitios";
 import ProductsTable from "./products-table";
 import styles from './products.module.css'
@@ -7,10 +7,16 @@ import styles from './products.module.css'
 export default function ProductsList({ products, categories }: { products: Product[], categories: Category[] }) {
   const [filteredProducts, setFilteredProducts] = useState(products);
   const selectProductsByCategory = (category: string) => {
-    const productsByCategory = products.filter((product) => product.category_id === category)
-    setFilteredProducts(productsByCategory)
+    const productsByCategory = category ? 
+    products.filter((product) => product.category_id === category)
+    : products;
+    setFilteredProducts(productsByCategory);
   }
-
+  useEffect(() => {
+    console.log(1);
+    setFilteredProducts(products)
+  }, [products])
+  
   return <>
     <li className={styles.categoryTabs}>
       {categories.map(({ category_id, category_name }) => {

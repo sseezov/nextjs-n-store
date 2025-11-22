@@ -82,7 +82,6 @@ export async function createProduct(formData: FormData) {
       INSERT INTO product_image_relations (product_id, image_id)
       VALUES (${product_id}, ${image_id}) `;
     });
-
     await Promise.all(imagePromises);
     revalidatePath('/admin/products');
   } catch (error) {
@@ -92,6 +91,7 @@ export async function createProduct(formData: FormData) {
 }
 
 export async function deleteProduct(formData: FormData) {
+  console.log(1);
   const { id } = { id: formData.get('product_id') as 'string' };
   try {
     const photos = await sql`SELECT * FROM product_image_relations WHERE product_id = ${id};`;
@@ -101,11 +101,12 @@ export async function deleteProduct(formData: FormData) {
       await fs.unlink(`./public/uploads/${image_url}`);
     })
     await sql`DELETE FROM products WHERE product_id = ${id};`
+    console.log(2);
   } catch (e) {
     console.error(e);
     throw new Error('Ошибка при удалении элемента')
   }
-  revalidatePath('/admin/products');
+  revalidatePath('/admin');
 }
 
 export async function updateProduct(formData: FormData) {

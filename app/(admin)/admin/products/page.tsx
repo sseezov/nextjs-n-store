@@ -5,8 +5,7 @@ import ProductsList from "../../../ui/admin/products/products-list";
 export default async function Page() {
   const products = await fetchProducts();
   const categories = await fetchCategories();
-  console.log(products);
-
+  console.log(6);
   return <>
     <ProductsList products={products} categories={categories} />
     <CreateProductForm />

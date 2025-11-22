@@ -15,6 +15,7 @@ export async function fetchCategories() {
 }
 
 export async function fetchProducts() {
+  console.log(4);
   try {
     const data = await sql<Product[]>`SELECT 
     p.product_id,
@@ -39,6 +40,7 @@ GROUP BY
     p.category_id,
     c.category_name
 ORDER BY p.product_id;`;
+console.log(5);
     return data;
   } catch (error) {
     console.error(error);

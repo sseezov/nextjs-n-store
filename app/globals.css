@@ -191,7 +191,7 @@ label {
 input[type="text"],
 input[type="email"],
 input[type="tel"],
-input[type="password"],
+input[type="number"],
 textarea,
 select {
   width: 100%;
@@ -350,27 +350,6 @@ textarea {
 }
 
 /* swiper */
-#app {
-  height: 100%;
-}
-html,
-body {
-  position: relative;
-  height: 100%;
-}
-
-body {
-  background: #000;
-  font-family:
-    Helvetica Neue,
-    Helvetica,
-    Arial,
-    sans-serif;
-  font-size: 14px;
-  color: #fff;
-  margin: 0;
-  padding: 0;
-}
 
 .swiper {
   width: 100%;
