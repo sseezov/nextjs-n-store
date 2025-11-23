@@ -1,6 +1,6 @@
 import { fetchCategories } from "../../../lib/data";
 import CategoriesTable from "../../../ui/admin/categories/categories-table";
-import CreateCategory from "../../../ui/admin/categories/create-form";
+import CreateCategory from "../../../ui/admin/categories/create-category-form";
 
 export default async function Page() {
   const categories = await fetchCategories();

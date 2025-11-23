@@ -4,11 +4,23 @@ import { revalidatePath } from 'next/cache';
 import postgres from 'postgres';
 const sql = postgres(process.env.POSTGRES_ADRESS!);
 
+const storeImage = async (file: File, folder: 'products'|'categories') => {
+  const arrayBuffer = await file.arrayBuffer();
+  const buffer = new Uint8Array(arrayBuffer);
+  const uniquePrefix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+  const filename = `${uniquePrefix}-${file.name}`;
+  await fs.writeFile(`./public/uploads/${folder}/${filename}`, buffer);
+  return filename;
+}
+
 export async function createCategory(formData: FormData) {
-  const { name, description } = {
+  const { name, description, picture } = {
     name: formData.get('name') as 'string',
     description: formData.get('description') as 'string',
+    picture: formData.get('picture') as File
   };
+
+
   try {
     await sql`INSERT INTO categories (category_name, description)
       VALUES (${name}, ${description})
@@ -56,14 +68,7 @@ export async function createProduct(formData: FormData) {
     photos: formData.getAll('photos') as [File],
   };
 
-  const filenames = await Promise.all(photos.map(async (file) => {
-    const arrayBuffer = await file.arrayBuffer();
-    const buffer = new Uint8Array(arrayBuffer);
-    const uniquePrefix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-    const filename = `${uniquePrefix}-${file.name}`;
-    await fs.writeFile(`./public/uploads/${filename}`, buffer);
-    return filename;
-  }))
+  const filenames = await Promise.all(photos.map((file) => (storeImage(file, 'products'))))
 
   try {
     const productResult = await sql`INSERT INTO products (category_id, product_name, base_price, sale_price, description)
@@ -98,7 +103,7 @@ export async function deleteProduct(formData: FormData) {
     photos.forEach(async ({ image_id }) => {
       const [result] = await sql`DELETE FROM product_images WHERE id = ${image_id} RETURNING image_url;`;
       const { image_url } = result;
-      await fs.unlink(`./public/uploads/${image_url}`);
+      await fs.unlink(`./public/uploads/products/${image_url}`);
     })
     await sql`DELETE FROM products WHERE product_id = ${id};`
     console.log(2);

@@ -7,6 +7,12 @@ export default function CreateCategory() {
     <div className={`form-group ${styles.formsContainer}`}>
       <form action={createCategory}>
         <div className="input-group">
+          <label htmlFor="picture" className={styles.photosLable}>
+            <span>Загрузите фотографии</span>
+            <input className={styles.input} type="file" multiple name="picture" id="picture" />
+          </label>
+        </div>
+        <div className="input-group">
           <label htmlFor="name" >Имя категории</label>
           <input name='name' required type="text" />
         </div>

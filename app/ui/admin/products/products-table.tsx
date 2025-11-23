@@ -21,7 +21,7 @@ export default function ProductsTable({ products, categories }: { products: Prod
                     <Image
                       width='80'
                       height='100'
-                      src={`/uploads/${photo}`}
+                      src={`/uploads/products/${photo}`}
                       alt='product'
                     />
                   </div>
