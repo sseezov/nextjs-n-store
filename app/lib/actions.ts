@@ -2,16 +2,8 @@
 import fs from "node:fs/promises";
 import { revalidatePath } from 'next/cache';
 import postgres from 'postgres';
+import { storeImage } from './helpers';
 const sql = postgres(process.env.POSTGRES_ADRESS!);
-
-const storeImage = async (file: File, folder: 'products'|'categories') => {
-  const arrayBuffer = await file.arrayBuffer();
-  const buffer = new Uint8Array(arrayBuffer);
-  const uniquePrefix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-  const filename = `${uniquePrefix}-${file.name}`;
-  await fs.writeFile(`./public/uploads/${folder}/${filename}`, buffer);
-  return filename;
-}
 
 export async function createCategory(formData: FormData) {
   const { name, description, picture } = {
@@ -19,13 +11,13 @@ export async function createCategory(formData: FormData) {
     description: formData.get('description') as 'string',
     picture: formData.get('picture') as File
   };
-
+  const filename = await storeImage(picture, 'categories');
 
   try {
-    await sql`INSERT INTO categories (category_name, description)
-      VALUES (${name}, ${description})
+    await sql`INSERT INTO categories (picture, category_name, description)
+      VALUES (${filename}, ${name}, ${description})
     `;
-    revalidatePath('/admin');
+    revalidatePath('/admin/categories');
   } catch (error) {
     console.error('SQL Error:', error)
     throw new Error('Такая категория уже существует')
@@ -54,8 +46,10 @@ export async function updateCategory(formData: FormData) {
 
 export async function deleteCategory(formData: FormData) {
   const { id } = { id: formData.get('category_id') as 'string' };
-  await sql`DELETE FROM categories WHERE category_id = ${id}`;
-  revalidatePath('/admin');
+  const [ result ] = await sql`DELETE FROM categories WHERE category_id = ${id} returning picture`;
+  const { picture } = result;
+  await fs.unlink(`./public/uploads/categories/${picture}`);
+  revalidatePath('/admin/categories');
 }
 
 export async function createProduct(formData: FormData) {
@@ -96,7 +90,6 @@ export async function createProduct(formData: FormData) {
 }
 
 export async function deleteProduct(formData: FormData) {
-  console.log(1);
   const { id } = { id: formData.get('product_id') as 'string' };
   try {
     const photos = await sql`SELECT * FROM product_image_relations WHERE product_id = ${id};`;
@@ -104,9 +97,8 @@ export async function deleteProduct(formData: FormData) {
       const [result] = await sql`DELETE FROM product_images WHERE id = ${image_id} RETURNING image_url;`;
       const { image_url } = result;
       await fs.unlink(`./public/uploads/products/${image_url}`);
-    })
+    });
     await sql`DELETE FROM products WHERE product_id = ${id};`
-    console.log(2);
   } catch (e) {
     console.error(e);
     throw new Error('Ошибка при удалении элемента')
