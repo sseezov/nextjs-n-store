@@ -1,4 +1,3 @@
-import styles from './layout.module.css'
 import Link from 'next/link'
 
 export default function AdminLayout({
@@ -8,15 +7,24 @@ export default function AdminLayout({
 }>) {
   return (
     <>
-      <header className={styles.nav}>
-        <h1 className={`header ${styles.header}`}>Админка</h1>
-        <div className='nav-menu'>
-          <Link className={styles.navLink} href="products">Товары</Link>
-          <Link className={styles.navLink} href="categories">Категории</Link>
-          <Link className={styles.navLink} href="/">На главную</Link>
-        </div>
+      <header className="header">
+        <nav className="nav container">
+          <div className="logo">
+            <Link href="/admin">
+              <h1>Панель администратора</h1>
+            </Link>
+          </div>
+          <div className="nav-links">
+            <Link href="/admin/products">Товары</Link>
+            <Link href="/admin/categories">Категории</Link>
+            <Link href="/">На главную</Link>
+          </div>
+        </nav>
       </header>
-      {children}
+
+      <main className="main">
+        {children}
+      </main>
     </>
   );
 }

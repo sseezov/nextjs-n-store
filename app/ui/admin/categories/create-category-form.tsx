@@ -1,28 +1,64 @@
+'use client';
+
 import { createCategory } from "../../../lib/actions"
-import styles from './categories.module.css'
+import { useRef, useState } from 'react'
+import styles from './create-category-form.module.css'
 
 export default function CreateCategory() {
-  return <>
-    <h3>Добавить категорию</h3>
-    <div className={`form-group ${styles.formsContainer}`}>
-      <form action={createCategory}>
-        <div className="input-group">
-          <label htmlFor="picture" className={styles.photosLable}>
-            <span>Загрузите фотографии</span>
-            <input className={styles.input} type="file" multiple name="picture" id="picture" />
-          </label>
-        </div>
-        <div className="input-group">
-          <label htmlFor="name" >Имя категории</label>
-          <input name='name' required type="text" />
-        </div>
-        <div className="input-group">
-          <label htmlFor="description">Описание</label>
-          <input name='description' type="text" />
-        </div>
+  const fileInputRef = useRef<HTMLInputElement>(null)
+  const [fileName, setFileName] = useState('')
 
-        <button className={`btn btn-primary ${styles.btn}`} type="submit">Добавить категорию</button>
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      setFileName(e.target.files[0].name)
+    }
+  }
+
+  return (
+    <div className={styles.formContainer}>
+      <h3 className={styles.title}>Добавить категорию</h3>
+      <form action={createCategory} className={styles.form}>
+        <div className={styles.formGroup}>
+          <label className={styles.label}>Загрузите фотографию</label>
+          <div className={styles.fileInputWrapper}>
+            <input 
+              type="file" 
+              name="picture" 
+              id="picture" 
+              ref={fileInputRef}
+              onChange={handleFileChange}
+              className={styles.fileInput}
+            />
+            <button 
+              type="button"
+              onClick={() => fileInputRef.current?.click()}
+              className={styles.fileInputLabel}
+            >
+              Выберите файл
+            </button>
+            {fileName && <span className={styles.fileName}>{fileName}</span>}
+          </div>
+        </div>
+        <div className={styles.formGroup}>
+          <label htmlFor="name" className={styles.label}>Имя категории</label>
+          <input 
+            name='name' 
+            required 
+            type="text" 
+            className={styles.input}
+          />
+        </div>
+        <div className={styles.formGroup}>
+          <label htmlFor="description" className={styles.label}>Описание</label>
+          <textarea 
+            name='description' 
+            className={styles.textarea}
+          />
+        </div>
+        <button type="submit" className={styles.submitButton}>
+          Добавить категорию
+        </button>
       </form>
     </div>
-  </>
+  )
 }

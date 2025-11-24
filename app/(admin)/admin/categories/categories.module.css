@@ -1,0 +1,12 @@
+.header {
+  margin-bottom: 2rem;
+  text-align: center; /* Выравнивание по центру */
+}
+
+.title {
+  font-family: var(--font-heading);
+  font-size: 1.8rem;
+  color: var(--color-primary);
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+}

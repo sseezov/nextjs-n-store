@@ -1,0 +1,86 @@
+.categoriesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+  max-width: 1200px; /* Ограничим ширину */
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0 20px; /* Отступы по бокам */
+}
+
+.categoryCard {
+  background: white;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.image {
+  border-radius: 4px;
+  margin-bottom: 1rem;
+}
+
+.formGroup {
+  margin-bottom: 1rem;
+}
+
+.label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: var(--color-secondary);
+}
+
+.input {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  font-family: var(--font-body);
+}
+
+.textarea {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  font-family: var(--font-body);
+  resize: vertical;
+  min-height: 80px;
+}
+
+.buttons {
+  display: flex;
+  gap: 0.5rem; /* Добавим отступ между кнопками */
+  margin-top: 0.5rem;
+}
+
+.editButton {
+  padding: 8px 16px;
+  background-color: var(--color-primary);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  flex: 1; /* Обе кнопки одинаковой ширины */
+}
+
+.deleteButton {
+  padding: 8px 16px;
+  background-color: #dc2626;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  flex: 1; /* Обе кнопки одинаковой ширины */
+}
+
+.editButton:hover {
+  background-color: var(--color-accent);
+}
+
+.deleteButton:hover {
+  background-color: #b91c1c;
+}

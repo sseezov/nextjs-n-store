@@ -1,14 +1,13 @@
 import Image from "next/image";
 import { deleteCategory, updateCategory } from "../../../lib/actions";
 import { Category } from "../../../lib/definitions";
-import styles from './categories.module.css'
+import styles from './categories-table.module.css';
 
 export default function CategoriesTable({ categories }: { categories: Category[] }) {
-
-  return <>
-    {
-      categories?.map(({ category_id, category_name, description, picture }: Category) => (
-        <div className={`form-group ${styles.formsContainer}`} key={category_id} >
+  return (
+    <div className={styles.categoriesGrid}>
+      {categories?.map(({ category_id, category_name, description, picture }: Category) => (
+        <div key={category_id} className={styles.categoryCard}>
           <form action={updateCategory}>
             <input name="category_id" type="hidden" defaultValue={category_id} />
             <Image
@@ -16,23 +15,37 @@ export default function CategoriesTable({ categories }: { categories: Category[]
               height='100'
               src={`/uploads/categories/${picture}`}
               alt='product'
+              className={styles.image}
             />
-            <div className="input-group">
-              <label htmlFor="category_name">Имя категории</label>
-              <input name="category_name" type="text" defaultValue={category_name} />
+            <div className={styles.formGroup}>
+              <label htmlFor="category_name" className={styles.label}>Имя категории</label>
+              <input
+                name="category_name"
+                type="text"
+                defaultValue={category_name}
+                className={styles.input}
+              />
             </div>
-            <div className="input-group">
-              <label htmlFor="description">Описание</label>
-              <input name="description" type="text" defaultValue={description} />
+            <div className={styles.formGroup}>
+              <label htmlFor="description" className={styles.label}>Описание</label>
+              <textarea
+                name="description"
+                defaultValue={description}
+                className={styles.textarea}
+              />
             </div>
-            <button className={`btn btn-primary ${styles.btn}`} type="submit">Редактировать</button>
+            <div className={styles.buttons}>
+              <button type="submit" className={styles.editButton}>Редактировать</button>
+            </div>
           </form>
           <form action={deleteCategory}>
             <input name="category_id" type="hidden" defaultValue={category_id} />
-            <button className={`btn btn-primary ${styles.btn}`} type="submit">Удалить</button>
+            <div className={styles.buttons}>
+              <button type="submit" className={styles.deleteButton}>Удалить</button>
+            </div>
           </form>
         </div>
-      ))
-    }
-  </>
+      ))}
+    </div>
+  );
 }
