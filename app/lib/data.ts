@@ -14,8 +14,7 @@ export async function fetchCategories() {
   }
 }
 
-export async function fetchProducts() {
-  console.log(4);
+export async function fetchProducts(query: string) {
   try {
     const data = await sql<Product[]>`SELECT 
     p.product_id,
@@ -31,6 +30,7 @@ FROM products p
 LEFT JOIN categories c ON p.category_id = c.category_id
 LEFT JOIN product_image_relations pir ON p.product_id = pir.product_id
 LEFT JOIN product_images pi ON pir.image_id = pi.id
+WHERE p.product_name ILIKE CONCAT('%', ${query}::text, '%')
 GROUP BY 
     p.product_id, 
     p.product_name, 
@@ -40,7 +40,6 @@ GROUP BY
     p.category_id,
     c.category_name
 ORDER BY p.product_id;`;
-console.log(5);
     return data;
   } catch (error) {
     console.error(error);

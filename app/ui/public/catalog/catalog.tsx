@@ -12,14 +12,14 @@ interface CatalogClientProps {
 export default function CatalogClient({ products, categories }: CatalogClientProps) {
   const [activeCategory, setActiveCategory] = useState<string>('all');
 
-  const filteredProducts = activeCategory === 'all' 
-    ? products 
+  const filteredProducts = activeCategory === 'all'
+    ? products
     : products.filter(product => product.category_id === activeCategory);
 
   const getDisplayPrice = (product: Product) => {
     const salePrice = parseFloat(product.sale_price);
     const basePrice = parseFloat(product.base_price);
-    
+
     if (salePrice && salePrice < basePrice) {
       return (
         <div className={styles.productPrice}>
@@ -28,7 +28,7 @@ export default function CatalogClient({ products, categories }: CatalogClientPro
         </div>
       );
     }
-    
+
     return (
       <div className={styles.productPrice}>
         <span className={styles.finalPrice}>{basePrice} ₽</span>
@@ -70,7 +70,7 @@ export default function CatalogClient({ products, categories }: CatalogClientPro
             <div key={product.product_id} className={styles.productCard}>
               {product.images && product.images.length > 0 && (
                 <img
-                  src={product.images[0]}
+                  src={`/uploads/products/${product.images[0]}`}
                   alt={product.product_name}
                   className={styles.productImage}
                 />
@@ -82,13 +82,13 @@ export default function CatalogClient({ products, categories }: CatalogClientPro
               </div>
             </div>
           ))}
-          
+
           {filteredProducts.length === 0 && (
             <div className={styles.noProducts}>
               <h3 className={styles.noProductsTitle}>Товары не найдены</h3>
               <p className={styles.noProductsText}>
-                {activeCategory === 'all' 
-                  ? 'В каталоге пока нет товаров' 
+                {activeCategory === 'all'
+                  ? 'В каталоге пока нет товаров'
                   : 'В этой категории пока нет товаров'
                 }
               </p>

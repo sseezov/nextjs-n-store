@@ -1,11 +1,17 @@
 import { fetchProducts, fetchCategories } from "../../lib/data";
-import Catalog from "./../../ui/public/categories/catalog";
+import Catalog from "../../ui/public/catalog/catalog";
 import styles from "./styles.module.css";
 
-export default async function Page() {
+export default async function Page(props: {
+  searchParams?: Promise<{
+    search?: string;
+  }>;
+}) {
+  const searchParams = await props.searchParams;
+  const query = searchParams?.search || '';
   const [products, categories] = await Promise.all([
-    fetchProducts(),
-    fetchCategories() // Нужно добавить эту функцию в lib/data
+    fetchProducts(query),
+    fetchCategories()
   ]);
 
   return (
