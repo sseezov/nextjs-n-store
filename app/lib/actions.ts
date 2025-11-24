@@ -5,6 +5,8 @@ import postgres from 'postgres';
 import { storeImage } from './helpers';
 const sql = postgres(process.env.POSTGRES_ADRESS!);
 
+// КАТЕГОРИИ
+
 export async function createCategory(formData: FormData) {
   const { name, description, picture } = {
     name: formData.get('name') as 'string',
@@ -51,6 +53,8 @@ export async function deleteCategory(formData: FormData) {
   await fs.unlink(`./public/uploads/categories/${picture}`);
   revalidatePath('/admin/categories');
 }
+
+// ПРОДУКТЫ
 
 export async function createProduct(formData: FormData) {
   const { product_name, category_id, description, base_price, sale_price, photos } = {

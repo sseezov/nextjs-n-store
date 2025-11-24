@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import { deleteProduct, updateProduct } from "../../../lib/actions";
 import styles from './products.module.css'
-import { Category, Product } from '../../../lib/definitios';
+import { Category, Product } from '../../../lib/definitions';
 
 export default function ProductsTable({ products, categories }: { products: Product[], categories: Category[] }) {
 

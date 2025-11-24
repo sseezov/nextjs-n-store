@@ -1,7 +1,7 @@
 'use server';
 
 import postgres from 'postgres';
-import { Category, Product } from './definitios';
+import { Category, Product } from './definitions';
 const sql = postgres(process.env.POSTGRES_ADRESS!);
 
 export async function fetchCategories() {

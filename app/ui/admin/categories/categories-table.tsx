@@ -1,15 +1,22 @@
+import Image from "next/image";
 import { deleteCategory, updateCategory } from "../../../lib/actions";
-import { Category } from "../../../lib/definitios";
+import { Category } from "../../../lib/definitions";
 import styles from './categories.module.css'
 
-export default function CategoriesTable({ categories } : {categories: Category[]}) {
+export default function CategoriesTable({ categories }: { categories: Category[] }) {
 
   return <>
     {
-      categories?.map(({ category_id, category_name, description }: Category) => (
+      categories?.map(({ category_id, category_name, description, picture }: Category) => (
         <div className={`form-group ${styles.formsContainer}`} key={category_id} >
           <form action={updateCategory}>
             <input name="category_id" type="hidden" defaultValue={category_id} />
+            <Image
+              width='80'
+              height='100'
+              src={`/uploads/categories/${picture}`}
+              alt='product'
+            />
             <div className="input-group">
               <label htmlFor="category_name">Имя категории</label>
               <input name="category_name" type="text" defaultValue={category_name} />

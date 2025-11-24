@@ -1,6 +1,6 @@
 'use client'
 import { useEffect, useState } from "react";
-import { Category, Product } from "../../../lib/definitios";
+import { Category, Product } from "../../../lib/definitions";
 import ProductsTable from "./products-table";
 import styles from './products.module.css'
 
