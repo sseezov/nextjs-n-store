@@ -14,7 +14,7 @@ export async function fetchCategories() {
   }
 }
 
-export async function fetchProducts(query: string) {
+export async function fetchProducts(query: string = '') {
   try {
     const data = await sql<Product[]>`SELECT 
     p.product_id,

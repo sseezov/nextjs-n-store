@@ -194,8 +194,3 @@ input:focus, textarea:focus, select:focus {
   flex-direction: column;
   gap: 2rem;
 }
-
-/* Для слайдера пока базовые стили */
-.swiper-container {
-  width: 100%;
-}
