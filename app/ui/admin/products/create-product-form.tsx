@@ -1,22 +1,39 @@
-import { createProduct } from "../../../lib/actions"
-import { fetchCategories } from "../../../lib/data";
+'use client';
+
+import { createProduct } from "../../../lib/actions";
 import FileUploadInput from "../../shared/file-upload-input";
+import { useState } from 'react';
 import styles from './create-product-form.module.css'
 
-export default async function CreateProductForm() {
-  const categories = await fetchCategories();
+interface Category {
+  category_id: string;
+  category_name: string;
+}
+
+interface CreateProductFormProps {
+  categories: Category[];
+}
+
+export default function CreateProductForm({ categories }: CreateProductFormProps) {
+  const [uploadKey, setUploadKey] = useState(0);
+
+  const handleSubmit = async (formData: FormData) => {
+    await createProduct(formData);
+    // Сбрасываем file input после успешного сабмита
+    setUploadKey(prev => prev + 1);
+  };
 
   return (
     <div className={styles.formContainer}>
       <h3 className={styles.title}>Создать товар</h3>
-      <form action={createProduct} className={styles.form}>
+      <form action={handleSubmit} className={styles.form}>
         <div className={styles.formGroup}>
           <label className={styles.label}>Загрузите фотографии</label>
           <FileUploadInput 
+            key={uploadKey}
             name="photos"
             multiple={true}
             accept="image/*"
-            filenames={[]}
           />
         </div>
 

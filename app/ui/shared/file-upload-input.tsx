@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import Image from 'next/image';
 import styles from './file-upload-input.module.css';
 
@@ -9,7 +9,7 @@ interface FileUploadInputProps {
   multiple?: boolean;
   accept?: string;
   onFilesChange?: (files: FileList | null) => void;
-  filenames: string[];
+  resetKey?: string | number; // Используем key для сброса
 }
 
 export default function FileUploadInput({
@@ -17,17 +17,11 @@ export default function FileUploadInput({
   multiple = false,
   accept = "image/*",
   onFilesChange,
-  filenames
+  resetKey // При изменении этого пропса компонент перемонтируется
 }: FileUploadInputProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [previewUrls, setPreviewUrls] = useState<string[]>([]);
-  const [fileNames, setFileNames] = useState<string[]>(filenames);
-  useEffect(() => {
-    console.log(';effect');
-    setPreviewUrls([]);
-    setFileNames([]);
-  }, [filenames]
-)
+  const [fileNames, setFileNames] = useState<string[]>([]);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
@@ -36,7 +30,6 @@ export default function FileUploadInput({
       const names = Array.from(files).map(file => file.name);
       setFileNames(names);
 
-      // Создаем preview для изображений
       const urls: string[] = [];
       Array.from(files).forEach(file => {
         if (file.type.startsWith('image/')) {
@@ -46,7 +39,6 @@ export default function FileUploadInput({
       });
       setPreviewUrls(urls);
 
-      // Передаем файлы родительскому компоненту
       onFilesChange?.(files);
     } else {
       setFileNames([]);
@@ -57,7 +49,6 @@ export default function FileUploadInput({
 
   const handleRemoveFile = (index: number) => {
     if (fileInputRef.current) {
-      // Сбрасываем значение инпута
       fileInputRef.current.value = '';
       setFileNames([]);
       setPreviewUrls([]);
@@ -92,7 +83,6 @@ export default function FileUploadInput({
         )}
       </div>
 
-      {/* Preview изображений */}
       {previewUrls.length > 0 && (
         <div className={styles.previews}>
           {previewUrls.map((url, index) => (

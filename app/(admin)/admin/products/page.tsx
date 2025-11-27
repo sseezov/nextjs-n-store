@@ -8,6 +8,6 @@ export default async function Page() {
 
   return <>
     <ProductsList products={products} categories={categories} />
-    <CreateProductForm />
+    <CreateProductForm categories={categories} />
   </>
 }
