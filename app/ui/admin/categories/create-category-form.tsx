@@ -5,6 +5,7 @@ import FileUploadInput from "../../shared/file-upload-input";
 import styles from './create-category-form.module.css'
 
 export default function CreateCategory() {
+  
   return (
     <div className={styles.formContainer}>
       <h3 className={styles.title}>Добавить категорию</h3>
@@ -15,6 +16,7 @@ export default function CreateCategory() {
             name="picture"
             multiple={false}
             accept="image/*"
+            filenames={[]}
           />
         </div>
         <div className={styles.formGroup}>

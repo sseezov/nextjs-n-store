@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import styles from './file-upload-input.module.css';
 
@@ -9,25 +9,33 @@ interface FileUploadInputProps {
   multiple?: boolean;
   accept?: string;
   onFilesChange?: (files: FileList | null) => void;
+  filenames: string[];
 }
 
-export default function FileUploadInput({ 
-  name, 
-  multiple = false, 
+export default function FileUploadInput({
+  name,
+  multiple = false,
   accept = "image/*",
-  onFilesChange 
+  onFilesChange,
+  filenames
 }: FileUploadInputProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [previewUrls, setPreviewUrls] = useState<string[]>([]);
-  const [fileNames, setFileNames] = useState<string[]>([]);
+  const [fileNames, setFileNames] = useState<string[]>(filenames);
+  useEffect(() => {
+    console.log(';effect');
+    setPreviewUrls([]);
+    setFileNames([]);
+  }, [filenames]
+)
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
-    
+
     if (files && files.length > 0) {
       const names = Array.from(files).map(file => file.name);
       setFileNames(names);
-      
+
       // Создаем preview для изображений
       const urls: string[] = [];
       Array.from(files).forEach(file => {
@@ -37,7 +45,7 @@ export default function FileUploadInput({
         }
       });
       setPreviewUrls(urls);
-      
+
       // Передаем файлы родительскому компоненту
       onFilesChange?.(files);
     } else {
@@ -60,8 +68,8 @@ export default function FileUploadInput({
   return (
     <div className={styles.container}>
       <div className={styles.fileInputWrapper}>
-        <input 
-          type="file" 
+        <input
+          type="file"
           name={name}
           id={name}
           ref={fileInputRef}
@@ -70,7 +78,7 @@ export default function FileUploadInput({
           accept={accept}
           className={styles.fileInput}
         />
-        <button 
+        <button
           type="button"
           onClick={() => fileInputRef.current?.click()}
           className={styles.fileInputLabel}

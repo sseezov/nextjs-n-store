@@ -16,6 +16,7 @@ export default async function CreateProductForm() {
             name="photos"
             multiple={true}
             accept="image/*"
+            filenames={[]}
           />
         </div>
 
