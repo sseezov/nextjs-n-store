@@ -1,0 +1,80 @@
+.container {
+  width: 100%;
+}
+
+.fileInputWrapper {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.fileInput {
+  position: absolute;
+  left: -9999px;
+}
+
+.fileInputLabel {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: var(--font-body);
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+.fileInputLabel:hover {
+  background-color: var(--color-border);
+}
+
+.fileNames {
+  font-style: italic;
+  color: var(--color-secondary);
+  font-size: 0.9rem;
+}
+
+.previews {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+}
+
+.previewItem {
+  position: relative;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  padding: 4px;
+}
+
+.previewImage {
+  object-fit: cover;
+  border-radius: 2px;
+}
+
+.removeButton {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  width: 24px;
+  height: 24px;
+  background: #dc2626;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 16px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.removeButton:hover {
+  background: #b91c1c;
+}

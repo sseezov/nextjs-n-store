@@ -1,5 +1,6 @@
 import { createProduct } from "../../../lib/actions"
 import { fetchCategories } from "../../../lib/data";
+import FileUploadInput from "../../shared/file-upload-input";
 import styles from './create-product-form.module.css'
 
 export default async function CreateProductForm() {
@@ -11,18 +12,11 @@ export default async function CreateProductForm() {
       <form action={createProduct} className={styles.form}>
         <div className={styles.formGroup}>
           <label className={styles.label}>Загрузите фотографии</label>
-          <div className={styles.fileInputWrapper}>
-            <input 
-              type="file" 
-              multiple 
-              name="photos" 
-              id="photos" 
-              className={styles.fileInput}
-            />
-            <label htmlFor="photos" className={styles.fileInputLabel}>
-              Выберите файлы
-            </label>
-          </div>
+          <FileUploadInput 
+            name="photos"
+            multiple={true}
+            accept="image/*"
+          />
         </div>
 
         <div className={styles.formGroup}>
