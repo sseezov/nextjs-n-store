@@ -14,6 +14,7 @@ export default function CategoriesSidebar({
   activeCategory, 
   onCategoryChange 
 }: CategoriesSidebarProps) {
+  console.log(22, categories);
   return (
     <aside className={styles.sidebar}>
       <h3 className={styles.sidebarTitle}>Категории</h3>

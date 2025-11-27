@@ -6,7 +6,15 @@ const sql = postgres(process.env.POSTGRES_ADRESS!);
 
 export async function fetchCategories() {
   try {
-    const data = await sql<Category[]>`SELECT * FROM categories ORDER BY category_id ASC`;
+    const data = await sql<Category[]>`
+      SELECT 
+        category_id::text,
+        category_name, 
+        description, 
+        picture 
+      FROM categories 
+      ORDER BY category_id ASC
+    `;
     return data;
   } catch (error) {
     console.error(error);
@@ -17,9 +25,9 @@ export async function fetchCategories() {
 export async function fetchProducts(query: string = '') {
   try {
     const data = await sql<Product[]>`SELECT 
-    p.product_id,
+    p.product_id::text,
     p.product_name,
-    p.category_id,
+    p.category_id::text,
     c.category_name,
     p.description,
     p.base_price,
@@ -31,6 +39,7 @@ LEFT JOIN categories c ON p.category_id = c.category_id
 LEFT JOIN product_image_relations pir ON p.product_id = pir.product_id
 LEFT JOIN product_images pi ON pir.image_id = pi.id
 WHERE p.product_name ILIKE CONCAT('%', ${query}::text, '%')
+OR p.description ILIKE CONCAT('%', ${query}::text, '%')
 GROUP BY 
     p.product_id, 
     p.product_name, 

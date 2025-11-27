@@ -1,6 +1,7 @@
 'use client'
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination, Autoplay } from 'swiper/modules';
+import { useRouter } from 'next/navigation';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
@@ -9,8 +10,9 @@ import Image from 'next/image';
 import styles from './swiper.module.css'
 
 export default function SwiperComponent({ categories }: { categories: Category[] }) {
+  const router = useRouter();
   return (
-    <Swiper 
+    <Swiper
       className={styles.mySwiper}
       modules={[Navigation, Pagination, Autoplay]}
       spaceBetween={20}
@@ -20,17 +22,18 @@ export default function SwiperComponent({ categories }: { categories: Category[]
       autoplay={{ delay: 5000 }}
       loop={true}
     >
-      {categories.map((category) => (
-        <SwiperSlide key={category.category_id}>
+      {categories.map(({ category_id, category_name, picture }: Category) => (
+        <SwiperSlide key={category_id}>
           <div className={styles.slide}>
-            <Image
-              src={`/uploads/categories/${category.picture}`}
-              alt={category.category_name}
+            <Image 
+              onClick={() => { router.push(`/catalog?category=${category_id}`); }}
+              src={`/uploads/categories/${picture}`}
+              alt={category_name}
               fill
               className={styles.image}
             />
             <div className={styles.overlay}>
-              <h3 className={styles.title}>{category.category_name}</h3>
+              <h3 className={styles.title}>{category_name}</h3>
             </div>
           </div>
         </SwiperSlide>
