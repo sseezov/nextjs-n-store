@@ -1,4 +1,5 @@
-import Link from 'next/link'
+import Header from '../ui/public/layout/header';
+import '../globals.css';
 
 export default function RootLayout({
   children,
@@ -7,20 +8,7 @@ export default function RootLayout({
 }>) {
   return (
     <>
-      <header className="header">
-        <nav className="nav container">
-          <div className="logo">
-            <Link href="/">
-              <h1>Швейно-вышивальная мастерская</h1>
-            </Link>
-          </div>
-          <div className="nav-links">
-            <Link href="/catalog">Каталог</Link>
-            <Link href="/about">О нас</Link>
-            <Link href="/admin">Админка</Link>
-          </div>
-        </nav>
-      </header>
+      <Header />
       <main className="main">
         {children}
       </main>

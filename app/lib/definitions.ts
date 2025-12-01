@@ -6,12 +6,28 @@ export type Category = {
 };
 
 export type Product = {
-  product_id: string, 
-  category_id: string, 
-  product_name: string, 
-  description: string, 
-  base_price: string, 
-  sale_price: string, 
-  created_at: string, 
+  product_id: string,
+  category_id: string,
+  product_name: string,
+  description: string,
+  base_price: string,
+  sale_price: string,
+  created_at: string,
   images: string[]
 };
+
+export interface CartItem {
+  product_id: string;
+  product_name: string;
+  base_price: number;
+  sale_price?: number;
+  quantity: number;
+  image?: string;
+  addedAt: string;
+}
+
+export interface Cart {
+  items: CartItem[];
+  total: number;
+  itemsCount: number;
+}
