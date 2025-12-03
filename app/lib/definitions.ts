@@ -21,13 +21,5 @@ export interface CartItem {
   product_name: string;
   base_price: number;
   sale_price?: number;
-  quantity: number;
   image?: string;
-  addedAt: string;
-}
-
-export interface Cart {
-  items: CartItem[];
-  total: number;
-  itemsCount: number;
 }

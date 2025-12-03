@@ -1,0 +1,255 @@
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 20px;
+}
+
+.title {
+  font-family: var(--font-heading);
+  font-size: 2rem;
+  color: var(--color-primary);
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.cartLayout {
+  display: grid;
+  grid-template-columns: 1fr 350px;
+  gap: 2rem;
+}
+
+/* Левая колонка - список товаров */
+.itemsList {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.cartItem {
+  display: flex;
+  gap: 1.5rem;
+  padding: 1.5rem;
+  background: white;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.itemImage {
+  flex-shrink: 0;
+}
+
+.image {
+  border-radius: 4px;
+  object-fit: cover;
+}
+
+.itemInfo {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.itemName {
+  font-family: var(--font-heading);
+  font-size: 1.2rem;
+  color: var(--color-dark);
+  margin-bottom: 0.5rem;
+}
+
+.itemPrice {
+  margin-bottom: 1rem;
+}
+
+.oldPrice {
+  text-decoration: line-through;
+  color: var(--color-secondary);
+  margin-right: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.currentPrice {
+  font-weight: 600;
+  color: var(--color-primary);
+  font-size: 1.1rem;
+}
+
+.itemControls {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.quantityControls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.quantityButton {
+  width: 30px;
+  height: 30px;
+  border: 1px solid var(--color-border);
+  background: white;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.quantityButton:hover {
+  background-color: var(--color-bg);
+  border-color: var(--color-primary);
+}
+
+.quantity {
+  min-width: 40px;
+  text-align: center;
+  font-weight: 500;
+}
+
+.removeButton {
+  padding: 6px 12px;
+  background: transparent;
+  color: #dc2626;
+  border: 1px solid #dc2626;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+}
+
+.removeButton:hover {
+  background-color: #dc2626;
+  color: white;
+}
+
+.itemTotal {
+  margin-top: auto;
+  font-weight: 600;
+  color: var(--color-dark);
+}
+
+.itemTotal span {
+  color: var(--color-primary);
+}
+
+.clearCart {
+  align-self: flex-start;
+  padding: 10px 20px;
+  background: transparent;
+  color: var(--color-secondary);
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.clearCart:hover {
+  background-color: #fef2f2;
+  color: #dc2626;
+  border-color: #dc2626;
+}
+
+/* Правая колонка - сумма заказа */
+.orderSummary {
+  background: white;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  padding: 1.5rem;
+  height: fit-content;
+  position: sticky;
+  top: 100px;
+}
+
+.summaryTitle {
+  font-family: var(--font-heading);
+  font-size: 1.3rem;
+  color: var(--color-dark);
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.summaryRow {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  color: var(--color-secondary);
+}
+
+.summaryTotal {
+  display: flex;
+  justify-content: space-between;
+  margin: 1.5rem 0;
+  padding-top: 1rem;
+  border-top: 2px solid var(--color-border);
+  font-weight: 600;
+  font-size: 1.2rem;
+}
+
+.totalPrice {
+  color: var(--color-primary);
+  font-size: 1.3rem;
+}
+
+.checkoutButton {
+  width: 100%;
+  padding: 14px;
+  background-color: var(--color-primary);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-family: var(--font-body);
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-bottom: 1rem;
+}
+
+.checkoutButton:hover {
+  background-color: var(--color-accent);
+}
+
+.continueShopping {
+  display: block;
+  text-align: center;
+  color: var(--color-primary);
+  text-decoration: none;
+  padding: 10px;
+  border: 1px solid var(--color-primary);
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.continueShopping:hover {
+  background-color: var(--color-primary);
+  color: white;
+}
+
+/* Пустая корзина */
+.emptyCart {
+  max-width: 500px;
+  margin: 4rem auto;
+  text-align: center;
+  padding: 3rem;
+  background: white;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+}
+
+.emptyCart h2 {
+  font-family: var(--font-heading);
+  color: var(--color-dark);
+  margin-bottom: 1rem;
+}
+
+.emptyCart p {
+  color: var(--color-secondary);
+  margin-bottom: 2rem;
+}
