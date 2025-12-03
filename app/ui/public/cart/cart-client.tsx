@@ -1,14 +1,12 @@
 'use client';
 
-import { useCart } from '../../../lib/hooks';
 import Image from 'next/image';
 import Link from 'next/link';
 import styles from './cart.module.css';
+import { useCart } from '../../../context/cart-context';
 
 export default function CartClient() {
-  const { getCart, removeFromCart, clearCart } = useCart();
-  const cart = getCart();
-  console.log(cart);
+  const { cart, addToCart, resetCart } = useCart();
 
   if (cart.length === 0) {
     return (
@@ -96,7 +94,7 @@ export default function CartClient() {
           ))}
           
           <button 
-            onClick={clearCart}
+            onClick={resetCart}
             className={styles.clearCart}
           >
             Очистить корзину

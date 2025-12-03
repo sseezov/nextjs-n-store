@@ -1,12 +1,11 @@
 'use client';
 
 import Link from 'next/link';
-import { useCart } from '../../../lib/hooks';
 import styles from './header.module.css';
+import { useCart } from '../../../context/cart-context';
 
 export default function Header() {
-  const { getCart } = useCart();
-  const cart = getCart()
+  const { cart } = useCart();
 
   return (
     <header className={styles.header}>

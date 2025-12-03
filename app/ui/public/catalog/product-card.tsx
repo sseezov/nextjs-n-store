@@ -2,15 +2,15 @@
 
 import { Product } from '../../../lib/definitions';
 import Image from 'next/image';
-import { useCart } from '../../../lib/hooks';
 import styles from './catalog.module.css';
+import { useCart } from '../../../context/cart-context';
 
 interface ProductCardProps {
   product: Product;
 }
 
 export default function ProductCard({ product }: ProductCardProps) {
-  const { addToCart } = useCart();
+  const { cart, addToCart } = useCart();
 
   const getDisplayPrice = (product: Product) => {
     const salePrice = parseFloat(product.sale_price);
@@ -32,16 +32,6 @@ export default function ProductCard({ product }: ProductCardProps) {
     );
   };
 
-  const handleAddToCart = () => {
-    addToCart({
-      product_id: product.product_id,
-      product_name: product.product_name,
-      base_price: parseFloat(product.base_price),
-      sale_price: product.sale_price ? parseFloat(product.sale_price) : undefined,
-      image: product.images?.[0]
-    });
-  };
-
   return (
     <div className={styles.productCard}>
       {product.images && product.images.length > 0 && (
@@ -58,8 +48,8 @@ export default function ProductCard({ product }: ProductCardProps) {
         <h3 className={styles.productName}>{product.product_name}</h3>
         <p className={styles.productDescription}>{product.description}</p>
         {getDisplayPrice(product)}
-        <button 
-          onClick={handleAddToCart} 
+        <button
+          onClick={() => addToCart(product)}
           className={styles.addToCartButton}
         >
           В корзину

@@ -1,5 +1,6 @@
 import { Cormorant_Garamond, Lora } from 'next/font/google';
 import './globals.css';
+import { CartProvider } from './context/cart-context';
 
 const cormorant = Cormorant_Garamond({
   subsets: ['cyrillic'],
@@ -23,7 +24,9 @@ export default function RootLayout({
   return (
     <html lang="ru" className={`${cormorant.variable} ${lora.variable}`}>
       <body>
-        {children}
+        <CartProvider>
+          {children}
+        </CartProvider>
       </body>
     </html>
   );
