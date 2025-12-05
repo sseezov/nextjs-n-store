@@ -16,8 +16,19 @@ export type Product = {
   images: string[]
 };
 
+export interface CartItem {
+  product_id: string;
+  product_name: string;
+  base_price: string;
+  sale_price?: string;
+  quantity: number;
+  images: string[];
+}
+
 export interface CartContextType {
-  cart: Product[];
+  cart: CartItem[];
   addToCart: (product: Product) => void;
+  removeFromCart: (product: Product) => void;
+  updateQuantity: (product: Product) => void;
   resetCart: () => void;
 }

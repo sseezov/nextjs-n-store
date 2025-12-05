@@ -1,27 +1,47 @@
 'use client';
 
 import { createContext, useContext, useState } from 'react';
-import { Product, CartContextType } from '../lib/definitions';
+import { Product, CartContextType, CartItem } from '../lib/definitions';
 
 const CartContext = createContext<CartContextType>({
   cart: [],
   addToCart: () => { },
+  removeFromCart: () => { },
   resetCart: () => { }
 });
 
 export function CartProvider({ children }: { children: React.ReactNode }) {
-  const [cart, setCart] = useState<Product[]>(JSON.parse(localStorage.getItem('n-store-cart')!)|| []);
+  const [cart, setCart] = useState<CartItem[]>(JSON.parse(localStorage.getItem('n-store-cart')!) || []);
+
   const addToCart = (product: Product) => {
-    if (!localStorage.getItem('n-store-cart')) {
-      setCart([product])
-      localStorage.setItem('n-store-cart', JSON.stringify(cart))
-    }
-    const savedCart = JSON.parse(localStorage.getItem('n-store-cart')!);
-    savedCart.push(product)
-    setCart(savedCart)
-    localStorage.setItem('n-store-cart', JSON.stringify(savedCart))
-    console.log('cart: ', cart);
+    const newProduct = cart.find((cartItem: CartItem) => cartItem.product_id === product.product_id);
+
+    const newCart = newProduct ? cart.map((cartProduct: CartItem) => (
+      cartProduct.product_id === product.product_id
+        ? { ...product, quantity: cartProduct.quantity + 1 }
+        : cartProduct
+    )) : [...cart, { ...product, quantity: 1 }]
+    setCart(newCart)
+    localStorage.setItem('n-store-cart', JSON.stringify(newCart))
   };
+
+  const removeFromCart = (product: Product) => {
+    const { product_id } = product;
+    const newCart = cart.filter((item) => item.product_id !== product_id);
+    setCart(newCart)
+    localStorage.setItem('n-store-cart', JSON.stringify(newCart))
+  }
+
+  const updateQuantity = (product: Product, newQuantity: number) => {
+    const { product_id } = product;
+    const newCart = cart.map((item) => {
+      if (item.product_id === product_id) {
+        return {...item, quantity: newQuantity}
+      } return item
+    });
+    setCart(newCart)
+    localStorage.setItem('n-store-cart', JSON.stringify(newCart))
+  }
 
   const resetCart = () => {
     setCart([]);
@@ -32,6 +52,8 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     <CartContext.Provider value={{
       cart,
       addToCart,
+      removeFromCart,
+      updateQuantity,
       resetCart
     }}>
       {children}
