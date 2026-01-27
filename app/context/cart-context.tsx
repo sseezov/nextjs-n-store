@@ -1,7 +1,8 @@
 'use client';
 
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext } from 'react';
 import { Product, CartContextType, CartItem } from '../lib/definitions';
+import { useLocalCart } from '../lib/hooks';
 
 const CartContext = createContext<CartContextType>({
   cart: [],
@@ -11,8 +12,8 @@ const CartContext = createContext<CartContextType>({
   resetCart: () => { }
 });
 
-export function CartProvider({ children, useCart }: { children: React.ReactNode, localCart: [] }) {
-  const [cart, setCart] = useCart;
+export function CartProvider({ children }: { children: React.ReactNode }) {
+  const [cart, setCart] = useLocalCart()
 
   const addToCart = (product: Product) => {
     const newProduct = cart.find((cartItem: CartItem) => cartItem.product_id === product.product_id);

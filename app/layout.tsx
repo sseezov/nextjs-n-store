@@ -2,7 +2,6 @@
 import { Cormorant_Garamond, Lora } from 'next/font/google';
 import './globals.css';
 import { CartProvider } from './context/cart-context';
-import { useEffect, useState } from 'react';
 
 const cormorant = Cormorant_Garamond({
   subsets: ['cyrillic'],
@@ -23,18 +22,11 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const [localCart, setLocalCart] = useState([])
-
-  useEffect(() => {
-    if (!localStorage.getItem('n-store-cart')) {
-      localStorage.setItem('n-store-cart', '[]')
-    } else setLocalCart(JSON.parse(localStorage.getItem('n-store-cart')))
-  }, [])
 
   return (
     <html lang="ru" className={`${cormorant.variable} ${lora.variable}`}>
       <body>
-        <CartProvider useCart={[localCart, setLocalCart]}>
+        <CartProvider>
           {children}
         </CartProvider>
       </body>
