@@ -7,11 +7,12 @@ const CartContext = createContext<CartContextType>({
   cart: [],
   addToCart: () => { },
   removeFromCart: () => { },
+  updateQuantity: () => { },
   resetCart: () => { }
 });
 
-export function CartProvider({ children }: { children: React.ReactNode }) {
-  const [cart, setCart] = useState<CartItem[]>(JSON.parse(localStorage.getItem('n-store-cart')!) || []);
+export function CartProvider({ children, useCart }: { children: React.ReactNode, localCart: [] }) {
+  const [cart, setCart] = useCart;
 
   const addToCart = (product: Product) => {
     const newProduct = cart.find((cartItem: CartItem) => cartItem.product_id === product.product_id);
@@ -36,7 +37,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     const { product_id } = product;
     const newCart = cart.map((item) => {
       if (item.product_id === product_id) {
-        return {...item, quantity: newQuantity}
+        return { ...item, quantity: newQuantity }
       } return item
     });
     setCart(newCart)
