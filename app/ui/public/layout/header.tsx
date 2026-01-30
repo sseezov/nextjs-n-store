@@ -37,7 +37,7 @@ export default function Header() {
                 <path d="M16 10a4 4 0 0 1-8 0"></path>
               </svg>
               <span className={styles.cartBadge}>
-                {cart.length}
+                {cart.reduce((acc, elem) => acc + elem.quantity, 0)}
               </span>
             </div>
             <span className={styles.cartText}>Корзина</span>

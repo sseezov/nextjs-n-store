@@ -34,8 +34,8 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     localStorage.setItem('n-store-cart', JSON.stringify(newCart))
   }
 
-  const updateQuantity = (product: Product, newQuantity: number) => {
-    const { product_id } = product;
+  const updateQuantity = (cartItem: CartItem, newQuantity: number) => {
+    const { product_id } = cartItem;
     const newCart = cart.map((item) => {
       if (item.product_id === product_id) {
         return { ...item, quantity: newQuantity }
