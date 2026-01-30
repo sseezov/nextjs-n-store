@@ -27,8 +27,8 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     localStorage.setItem('n-store-cart', JSON.stringify(newCart))
   };
 
-  const removeFromCart = (product: Product) => {
-    const { product_id } = product;
+  const removeFromCart = (cartItem: CartItem) => {
+    const { product_id } = cartItem;
     const newCart = cart.filter((item) => item.product_id !== product_id);
     setCart(newCart)
     localStorage.setItem('n-store-cart', JSON.stringify(newCart))

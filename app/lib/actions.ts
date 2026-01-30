@@ -3,7 +3,7 @@ import fs from "node:fs/promises";
 import { revalidatePath } from 'next/cache';
 import postgres from 'postgres';
 import { storeImage } from './helpers';
-const sql = postgres(process.env.POSTGRES_ADRESS!);
+const sql = postgres(process.env.DATABASE_URL!);
 
 // КАТЕГОРИИ
 

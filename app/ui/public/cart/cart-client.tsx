@@ -7,7 +7,8 @@ import { useCart } from '../../../context/cart-context';
 
 export default function CartClient() {
   const { cart, removeFromCart, resetCart, updateQuantity } = useCart();
-  console.log(cart);
+  const totalPrice = cart.reduce((acc, elem) => acc + elem.quantity * Number(elem.sale_price), 0);
+  const totalQuantity = cart.reduce((acc, elem) => acc + elem.quantity, 0);
 
   if (cart.length === 0) {
     return (
@@ -20,16 +21,6 @@ export default function CartClient() {
       </div>
     );
   }
-
-  const getItemPrice = (item: any) => {
-    const sale_price = Number(item.sale_price);
-    const base_price = Number(item.base_price);
-    const price = sale_price && sale_price < base_price
-      ? sale_price
-      : base_price;
-      console.log(2, price, item.quantity);
-    return price * Number(item.quantity);
-  };
 
   return (
     <div className={styles.container}>
@@ -92,7 +83,7 @@ export default function CartClient() {
                 </div>
 
                 <div className={styles.itemTotal}>
-                  Итого: <span>{getItemPrice(item)} ₽</span>
+                  Итого: <span>{totalPrice} ₽</span>
                 </div>
               </div>
             </div>
@@ -110,18 +101,12 @@ export default function CartClient() {
           <h2 className={styles.summaryTitle}>Сумма заказа</h2>
 
           <div className={styles.summaryRow}>
-            <span>Товары ({cart.itemsCount} шт.)</span>
-            <span>{cart.total} ₽</span>
-          </div>
-
-          <div className={styles.summaryRow}>
-            <span>Доставка</span>
-            <span>Бесплатно</span>
+            <span>Товары ({totalQuantity} шт.)</span>
           </div>
 
           <div className={styles.summaryTotal}>
             <span>Итого</span>
-            <span className={styles.totalPrice}>{cart.total} ₽</span>
+            <span className={styles.totalPrice}>{totalPrice} ₽</span>
           </div>
 
           <button className={styles.checkoutButton}>

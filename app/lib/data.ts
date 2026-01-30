@@ -2,7 +2,7 @@
 
 import postgres from 'postgres';
 import { Category, Product } from './definitions';
-const sql = postgres(process.env.POSTGRES_ADRESS!);
+const sql = postgres(process.env.DATABASE_URL!);
 
 export async function fetchCategories() {
   try {
