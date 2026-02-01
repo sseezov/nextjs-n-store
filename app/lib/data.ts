@@ -4,22 +4,44 @@ import postgres from 'postgres';
 import { Category, Product } from './definitions';
 const sql = postgres(process.env.DATABASE_URL!);
 
+// export async function fetchCategories() {
+//   const categories = await sql`
+//     SELECT 
+//       c.category_id,
+//       c.category_name,
+//       c.description,
+//       f.id
+//     FROM categories c
+//     LEFT JOIN files f ON c.category_id = f.id
+//     ORDER BY c.category_id ASC
+//   `;
+
+//   // Добавляем URL для картинок
+//   return categories.map(cat => ({
+//     ...cat,
+//     picture: cat.image_id ? `/api/images/${cat.image_id}` : null
+//   }));
+// }
+
 export async function fetchCategories() {
-  try {
-    const data = await sql<Category[]>`
-      SELECT 
-        category_id::text,
-        category_name, 
-        description, 
-        picture 
-      FROM categories 
-      ORDER BY category_id ASC
-    `;
-    return data;
-  } catch (error) {
-    console.error(error);
-    throw new Error('Не удалось загрузить категории')
-  }
+  const categories = await sql`
+SELECT 
+  c.category_id::text,  -- приводим к text
+  c.category_name,
+  c.description,
+  f.data,
+  f.mime_type
+FROM categories c
+LEFT JOIN files f ON c.image_id::integer = f.id::integer
+ORDER BY c.category_id ASC
+  `;
+
+  return categories.map(cat => ({
+    ...cat,
+    picture: cat.data
+      ? `data:${cat.mime_type};base64,${cat.data.toString('base64')}`
+      : null
+  }));
 }
 
 export async function fetchProducts(query: string = '') {

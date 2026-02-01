@@ -13,7 +13,7 @@ export default function CategoriesTable({ categories }: { categories: Category[]
             <Image
               width='80'
               height='100'
-              src={`/uploads/categories/${picture}`}
+              src={`${picture}`}
               alt='product'
               className={styles.image}
             />

@@ -1,10 +1,15 @@
-import fs from "node:fs/promises";
+import postgres from 'postgres';
+const sql = postgres(process.env.DATABASE_URL!);
 
-export const storeImage = async (file: File, folder: 'products' | 'categories') => {
+export async function storeImage(file: File) {
   const arrayBuffer = await file.arrayBuffer();
-  const buffer = new Uint8Array(arrayBuffer);
-  const uniquePrefix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-  const filename = `${uniquePrefix}-${file.name}`;
-  await fs.writeFile(`./public/uploads/${folder}/${filename}`, buffer);
-  return filename;
+  const buffer = Buffer.from(arrayBuffer);
+  
+  const [result] = await sql`
+    INSERT INTO files (filename, mime_type, data, size)
+    VALUES (${file.name}, ${file.type}, ${buffer}, ${file.size})
+    RETURNING id
+  `;
+  
+  return result.id;
 }

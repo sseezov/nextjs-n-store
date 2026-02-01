@@ -8,22 +8,39 @@ const sql = postgres(process.env.DATABASE_URL!);
 // КАТЕГОРИИ
 
 export async function createCategory(formData: FormData) {
-  const { name, description, picture } = {
-    name: formData.get('name') as 'string',
-    description: formData.get('description') as 'string',
-    picture: formData.get('picture') as File
-  };
-  const filename = await storeImage(picture, 'categories');
-
-  try {
-    await sql`INSERT INTO categories (picture, category_name, description)
-      VALUES (${filename}, ${name}, ${description})
-    `;
-    revalidatePath('/admin/categories');
-  } catch (error) {
-    console.error('SQL Error:', error)
-    throw new Error('Такая категория уже существует')
+  const name = formData.get('name') as string;
+  const description = formData.get('description') as string;
+  const picture = formData.get('picture') as File;
+  
+  if (!picture || picture.size === 0) {
+    throw new Error('Файл не загружен');
   }
+  
+  // Конвертируем файл в Buffer
+  const arrayBuffer = await picture.arrayBuffer();
+  const buffer = Buffer.from(arrayBuffer);
+  
+  // Сохраняем в таблицу files
+  const [fileRecord] = await sql`
+    INSERT INTO files (filename, mime_type, data, size)
+    VALUES (${picture.name}, ${picture.type}, ${buffer}, ${picture.size})
+    RETURNING id
+  `;
+  
+  const imageId = fileRecord.id;
+  
+  // Проверка: выводим ID
+  console.log('✅ Файл сохранен в БД, ID:', imageId);
+  
+  // Сохраняем категорию с ссылкой на файл
+  await sql`
+    INSERT INTO categories (category_name, description, image_id)
+    VALUES (${name}, ${description}, ${imageId})
+  `;
+  
+  revalidatePath('/admin/categories');
+  
+  return { success: true, imageId };
 }
 
 export async function updateCategory(formData: FormData) {
@@ -66,7 +83,7 @@ export async function createProduct(formData: FormData) {
     photos: formData.getAll('photos') as [File],
   };
 
-  const filenames = await Promise.all(photos.map((file) => (storeImage(file, 'products'))))
+  const filenames = await Promise.all(photos.map((file) => (storeImage(file))))
 
   try {
     const productResult = await sql`INSERT INTO products (category_id, product_name, base_price, sale_price, description)
