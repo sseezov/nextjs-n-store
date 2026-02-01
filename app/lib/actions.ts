@@ -61,29 +61,29 @@ export async function deleteCategory(formData: FormData) {
 
 export async function createProduct(formData: FormData) {
   const { product_name, category_id, description, base_price, sale_price, photos } = {
-    product_name: formData.get('product_name_create') as 'string',
-    category_id: formData.get('product_category_id') as 'string',
-    description: formData.get('product_description_create') as 'string',
-    base_price: formData.get('base_price_create') as 'string',
-    sale_price: formData.get('sale_price_create') as 'string',
+    product_name: formData.get('product_name_create') as string,
+    category_id: formData.get('product_category_id') as string,
+    description: formData.get('product_description_create') as string,
+    base_price: formData.get('base_price_create') as string,
+    sale_price: formData.get('sale_price_create') as string,
     photos: formData.getAll('photos') as [File],
   };
 
-  const filenames = await Promise.all(photos.map((file) => (storeImage(file))))
+  const fileIDs = await Promise.all(photos.map((file) => (storeImage(file))))
 
   try {
     const productResult = await sql`INSERT INTO products (category_id, product_name, base_price, sale_price, description)
       VALUES (${category_id}, ${product_name}, ${base_price}, ${sale_price}, ${description})
     RETURNING product_id `;
     const { product_id } = productResult[0];
-    const imagePromises = filenames.map(async (filename) => {
+    const imagePromises = fileIDs.map(async (filename) => {
       const imageResult = await sql`
-      INSERT INTO product_images (image_url, is_main)
+      INSERT INTO product_images (image_id, is_main)
       VALUES (${filename}, ${false})
-      RETURNING id`;
+      RETURNING image_id`;
 
-      const { id: image_id } = imageResult[0];
-
+      const { image_id } = imageResult[0];
+      console.log(111, product_id, image_id)
       await sql`
       INSERT INTO product_image_relations (product_id, image_id)
       VALUES (${product_id}, ${image_id}) `;

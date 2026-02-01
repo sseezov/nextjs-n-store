@@ -4,6 +4,7 @@ import { Category, Product } from '../../../lib/definitions';
 import styles from './products-table.module.css'
 
 export default function ProductsTable({ products, categories }: { products: Product[], categories: Category[] }) {
+  console.log(123, products);
   return (
     <div className={styles.container}>
       <h3 className={styles.title}>Товары</h3>
@@ -21,7 +22,7 @@ export default function ProductsTable({ products, categories }: { products: Prod
                       <Image
                         width='80'
                         height='100'
-                        src={`/uploads/products/${photo}`}
+                        src={photo}
                         alt='product'
                         className={styles.image}
                       />
@@ -47,9 +48,9 @@ export default function ProductsTable({ products, categories }: { products: Prod
 
                 <div className={styles.formGroup}>
                   <label htmlFor="description" className={styles.label}>Описание</label>
-                  <textarea 
-                    name="description" 
-                    defaultValue={description} 
+                  <textarea
+                    name="description"
+                    defaultValue={description}
                     className={styles.textarea}
                   />
                 </div>

@@ -29,34 +29,44 @@ ORDER BY c.category_id ASC
 
 export async function fetchProducts(query: string = '') {
   try {
-    const data = await sql<Product[]>`SELECT 
-    p.product_id::text,
-    p.product_name,
-    p.category_id::text,
-    c.category_name,
-    p.description,
-    p.base_price,
-    p.sale_price,
-    p.created_at,
-    JSON_AGG(pi.image_url) as images
-FROM products p
-LEFT JOIN categories c ON p.category_id = c.category_id
-LEFT JOIN product_image_relations pir ON p.product_id = pir.product_id
-LEFT JOIN product_images pi ON pir.image_id = pi.id
-WHERE p.product_name ILIKE CONCAT('%', ${query}::text, '%')
-OR p.description ILIKE CONCAT('%', ${query}::text, '%')
-GROUP BY 
-    p.product_id, 
-    p.product_name, 
-    p.description,
-    p.base_price,
-    p.sale_price,
-    p.category_id,
-    c.category_name
-ORDER BY p.product_id;`;
-    return data;
+    const products = await sql`
+      SELECT 
+        p.product_id::text,
+        p.product_name,
+        p.category_id::text,
+        c.category_name,
+        p.description,
+        p.base_price,
+        p.sale_price,
+        p.created_at,
+        -- Собираем только URLs картинок
+        COALESCE(
+          JSON_AGG(
+            DISTINCT 'data:' || f.mime_type || ';base64,' || ENCODE(f.data, 'base64')
+          ) FILTER (WHERE f.id IS NOT NULL),
+          '[]'::json
+        ) as images
+      FROM products p
+      LEFT JOIN categories c ON p.category_id = c.category_id
+      LEFT JOIN product_image_relations pir ON p.product_id = pir.product_id
+      LEFT JOIN files f ON pir.image_id = f.id
+      WHERE 
+        p.product_name ILIKE CONCAT('%', ${query}::text, '%')
+        OR p.description ILIKE CONCAT('%', ${query}::text, '%')
+      GROUP BY 
+        p.product_id, 
+        p.product_name, 
+        p.description,
+        p.base_price,
+        p.sale_price,
+        p.category_id,
+        c.category_name
+      ORDER BY p.product_id
+    `;
+
+    return products;
   } catch (error) {
     console.error(error);
-    throw new Error('Не получилось загрузить продукты')
+    throw new Error('Не получилось загрузить продукты');
   }
 }
