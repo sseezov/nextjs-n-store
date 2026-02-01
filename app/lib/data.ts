@@ -4,25 +4,6 @@ import postgres from 'postgres';
 import { Category, Product } from './definitions';
 const sql = postgres(process.env.DATABASE_URL!);
 
-// export async function fetchCategories() {
-//   const categories = await sql`
-//     SELECT 
-//       c.category_id,
-//       c.category_name,
-//       c.description,
-//       f.id
-//     FROM categories c
-//     LEFT JOIN files f ON c.category_id = f.id
-//     ORDER BY c.category_id ASC
-//   `;
-
-//   // Добавляем URL для картинок
-//   return categories.map(cat => ({
-//     ...cat,
-//     picture: cat.image_id ? `/api/images/${cat.image_id}` : null
-//   }));
-// }
-
 export async function fetchCategories() {
   const categories = await sql`
 SELECT 
@@ -37,7 +18,9 @@ ORDER BY c.category_id ASC
   `;
 
   return categories.map(cat => ({
-    ...cat,
+    category_id: cat.category_id,
+    category_name: cat.category_name,
+    description: cat.description,
     picture: cat.data
       ? `data:${cat.mime_type};base64,${cat.data.toString('base64')}`
       : null

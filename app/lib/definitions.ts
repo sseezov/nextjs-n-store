@@ -2,7 +2,7 @@ export type Category = {
   category_id: string;
   category_name: string;
   description: string;
-  picture: string;
+  picture?: string | null;
 };
 
 export type Product = {
