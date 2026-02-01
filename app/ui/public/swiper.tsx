@@ -10,6 +10,7 @@ import Image from 'next/image';
 import styles from './swiper.module.css'
 
 export default function SwiperComponent({ categories }: { categories: Category[] }) {
+  console.log(categories);
   const router = useRouter();
   return (
     <Swiper
@@ -27,7 +28,7 @@ export default function SwiperComponent({ categories }: { categories: Category[]
           <div className={styles.slide}>
             <Image 
               onClick={() => { router.push(`/catalog?category=${category_id}`); }}
-              src={`/uploads/categories/${picture}`}
+              src={picture as string}
               alt={category_name}
               fill
               className={styles.image}

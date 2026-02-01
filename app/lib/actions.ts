@@ -2,52 +2,38 @@
 import fs from "node:fs/promises";
 import { revalidatePath } from 'next/cache';
 import postgres from 'postgres';
-import { storeImage } from './helpers';
+import { deleteImage, storeImage } from './helpers';
 const sql = postgres(process.env.DATABASE_URL!);
 
 // КАТЕГОРИИ
 
 export async function createCategory(formData: FormData) {
-  const name = formData.get('name') as string;
-  const description = formData.get('description') as string;
-  const picture = formData.get('picture') as File;
-  
-  if (!picture || picture.size === 0) {
-    throw new Error('Файл не загружен');
+  const { name, description, picture } = {
+    name: formData.get('name') as string,
+    description: formData.get('description') as string,
+    picture: formData.get('picture') as File,
+  };
+
+  const imageId = await storeImage(picture);
+  try {
+    await sql`
+      INSERT INTO categories (category_name, description, image_id)
+      VALUES (${name}, ${description}, ${imageId})
+    `;
+  } catch (e) {
+    await deleteImage(imageId)
+    console.log(e);
+    throw new Error("Такая категория уже существует")
   }
-  
-  // Конвертируем файл в Buffer
-  const arrayBuffer = await picture.arrayBuffer();
-  const buffer = Buffer.from(arrayBuffer);
-  
-  // Сохраняем в таблицу files
-  const [fileRecord] = await sql`
-    INSERT INTO files (filename, mime_type, data, size)
-    VALUES (${picture.name}, ${picture.type}, ${buffer}, ${picture.size})
-    RETURNING id
-  `;
-  
-  const imageId = fileRecord.id;
-  
-  // Проверка: выводим ID
-  console.log('✅ Файл сохранен в БД, ID:', imageId);
-  
-  // Сохраняем категорию с ссылкой на файл
-  await sql`
-    INSERT INTO categories (category_name, description, image_id)
-    VALUES (${name}, ${description}, ${imageId})
-  `;
-  
+
   revalidatePath('/admin/categories');
-  
-  return { success: true, imageId };
 }
 
 export async function updateCategory(formData: FormData) {
   const { id, name, description } = {
-    id: formData.get('category_id') as 'string',
-    name: formData.get('category_name') as 'string',
-    description: formData.get('description') as 'string',
+    id: formData.get('category_id') as string,
+    name: formData.get('category_name') as string,
+    description: formData.get('description') as string,
   };
 
   try {
@@ -64,10 +50,10 @@ export async function updateCategory(formData: FormData) {
 }
 
 export async function deleteCategory(formData: FormData) {
-  const { id } = { id: formData.get('category_id') as 'string' };
-  const [ result ] = await sql`DELETE FROM categories WHERE category_id = ${id} returning picture`;
-  const { picture } = result;
-  await fs.unlink(`./public/uploads/categories/${picture}`);
+  const { id } = { id: formData.get('category_id') as string };
+  const [result] = await sql`DELETE FROM categories WHERE category_id = ${id} returning image_id`;
+  const { image_id } = result;
+  await deleteImage(image_id);
   revalidatePath('/admin/categories');
 }
 
