@@ -37,7 +37,7 @@ export default function ProductCard({ product }: ProductCardProps) {
       {product.images && product.images.length > 0 && (
         <div className={styles.imageContainer}>
           <Image
-            src={`/uploads/products/${product.images[0]}`}
+            src={product.images[0] as string}
             alt={product.product_name}
             fill
             className={styles.image}
