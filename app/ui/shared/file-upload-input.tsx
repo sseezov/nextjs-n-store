@@ -16,8 +16,7 @@ export default function FileUploadInput({
   name,
   multiple = false,
   accept = "image/*",
-  onFilesChange,
-  resetKey // При изменении этого пропса компонент перемонтируется
+  onFilesChange
 }: FileUploadInputProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [previewUrls, setPreviewUrls] = useState<string[]>([]);

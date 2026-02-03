@@ -10,7 +10,7 @@ interface ProductCardProps {
 }
 
 export default function ProductCard({ product }: ProductCardProps) {
-  const { cart, addToCart } = useCart();
+  const { addToCart } = useCart();
 
   const getDisplayPrice = (product: Product) => {
     const salePrice = parseFloat(product.sale_price);
