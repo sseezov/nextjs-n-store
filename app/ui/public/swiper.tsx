@@ -10,7 +10,7 @@ import Image from 'next/image';
 import styles from './swiper.module.css'
 
 export default function SwiperComponent({ categories }: { categories: Category[] }) {
-  console.log(categories);
+  
   const router = useRouter();
   return (
     <Swiper

@@ -4,7 +4,7 @@ import { Category, Product } from '../../../lib/definitions';
 import styles from './products-table.module.css'
 
 export default function ProductsTable({ products, categories }: { products: Product[], categories: Category[] }) {
-  console.log(123, products);
+  
   return (
     <div className={styles.container}>
       <h3 className={styles.title}>Товары</h3>

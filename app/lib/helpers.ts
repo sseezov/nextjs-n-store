@@ -21,7 +21,7 @@ export async function deleteImage(fileId: number | string) {
   const [result] = await sql`
     DELETE FROM files 
     WHERE id = ${fileId}
-    RETURNING id, filename
+    RETURNING id
   `;
   
   return result; // { id: number, filename: string } или undefined если не найден

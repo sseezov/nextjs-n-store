@@ -22,7 +22,7 @@ export async function createCategory(formData: FormData) {
     `;
   } catch (e) {
     await deleteImage(imageId)
-    console.log(e);
+    console.error(e);
     throw new Error("Такая категория уже существует")
   }
 
@@ -83,7 +83,6 @@ export async function createProduct(formData: FormData) {
       RETURNING image_id`;
 
       const { image_id } = imageResult[0];
-      console.log(111, product_id, image_id)
       await sql`
       INSERT INTO product_image_relations (product_id, image_id)
       VALUES (${product_id}, ${image_id}) `;
@@ -97,13 +96,11 @@ export async function createProduct(formData: FormData) {
 }
 
 export async function deleteProduct(formData: FormData) {
-  const { id } = { id: formData.get('product_id') as 'string' };
+  const { id } = { id: formData.get('product_id') as string };
   try {
     const photos = await sql`SELECT * FROM product_image_relations WHERE product_id = ${id};`;
     photos.forEach(async ({ image_id }) => {
-      const [result] = await sql`DELETE FROM product_images WHERE id = ${image_id} RETURNING image_url;`;
-      const { image_url } = result;
-      await fs.unlink(`./public/uploads/products/${image_url}`);
+      await deleteImage(image_id)
     });
     await sql`DELETE FROM products WHERE product_id = ${id};`
   } catch (e) {
