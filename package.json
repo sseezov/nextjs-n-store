@@ -21,7 +21,6 @@
     "use-debounce": "^10.0.6"
   },
   "devDependencies": {
-    "@fullhuman/postcss-purgecss": "^7.0.2",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
