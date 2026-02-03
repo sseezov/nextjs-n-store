@@ -1,6 +1,7 @@
 'use server';
 
 import postgres from 'postgres';
+import { Category, Product } from './definitions';
 const sql = postgres(process.env.DATABASE_URL!);
 
 export async function fetchCategories() {
@@ -16,7 +17,7 @@ LEFT JOIN files f ON c.image_id::integer = f.id::integer
 ORDER BY c.category_id ASC
   `;
 
-  return categories.map((cat) => ({
+  return categories.map((cat): Category => ({
     category_id: cat.category_id,
     category_name: cat.category_name,
     description: cat.description,
@@ -26,7 +27,7 @@ ORDER BY c.category_id ASC
   }));
 }
 
-export async function fetchProducts() {
+export async function fetchProducts(): Promise<Product[]> {
   try {
     const products = await sql`
       SELECT 
@@ -60,7 +61,7 @@ export async function fetchProducts() {
       ORDER BY p.product_id
     `;
 
-    return products;
+    return products as unknown as Product[];
   } catch (error) {
     console.error(error);
     throw new Error('Не получилось загрузить продукты');
