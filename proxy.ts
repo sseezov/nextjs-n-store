@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 
-export function middleware(request: Request) {
+export function proxy(request: Request) {
   const auth = request.headers.get('authorization');
   
   if (!auth || !auth.startsWith('Basic ')) {
