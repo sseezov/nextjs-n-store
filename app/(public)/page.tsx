@@ -7,8 +7,8 @@ export default async function Home() {
   const categories = await fetchCategories();
   return (
     <div className={styles.homeLayout}>
-      <Search placeholder="поиск товаров..." />
       <Swiper categories={categories} />
+      <Search placeholder="поиск товаров..." />
     </div>
   );
 }

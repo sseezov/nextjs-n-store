@@ -33,7 +33,7 @@ export default function CartClient() {
               <div className={styles.itemImage}>
                 {item.images.map(image => (
                   <Image
-                    src={`/uploads/products/${image}`}
+                    src={image}
                     key={image}
                     alt={item.product_name}
                     width={120}
