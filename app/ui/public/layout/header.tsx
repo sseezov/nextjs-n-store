@@ -8,8 +8,8 @@ export default function Header() {
   const { cart } = useCart();
 
   return (
-    <header className={styles.header}>
-      <nav className={`${styles.nav} container`}>
+    <header className="header">
+      <nav className="nav container">
         <div className={styles.logo}>
           <Link href="/">
             <h1>Швейно-вышивальная мастерская</h1>
